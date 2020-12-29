@@ -12,17 +12,34 @@
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Tab 2 page" />
+      {{ user }}
+      <button @click="login" >ログイン</button>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue'
-import ExploreContainer from '@/components/ExploreContainer.vue'
+import { AuthRepository } from '@/repositories/auth/AuthRepository'
+import { computed } from 'vue'
 
 export default {
   name: 'Tab2',
-  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
+  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage },
+  setup () {
+    const a = new AuthRepository()
+    const user = computed(async () => {
+      const user = await a.auth()
+      console.log(user)
+      return user
+    })
+
+    const login = a.signInWithGoogle
+
+    return {
+      user,
+      login
+    }
+  }
 }
 </script>

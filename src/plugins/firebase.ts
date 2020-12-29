@@ -9,7 +9,7 @@ if (!firebase.apps.length) {
       projectId: process.env.VUE_APP_PROJECTID,
       storageBucket: process.env.VUE_APP_STORAGEBUCKET,
       messagingSenderId: process.env.VUE_APP_MESSAGINGSENDERID,
-      appId: process.env.VUE_APP_APPID,
+      appId: process.env.VUE_APP_APPID
     }
   )
 }
