@@ -11,7 +11,7 @@
           <ion-title size="large">Tab 1</ion-title>
         </ion-toolbar>
       </ion-header>
-    
+
       <calendar />
     </ion-content>
   </ion-page>
@@ -24,7 +24,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'Tab1',
-  
-  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, Calendar },
+
+  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, Calendar }
 })
 </script>
