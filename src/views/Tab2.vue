@@ -12,8 +12,8 @@
         </ion-toolbar>
       </ion-header>
 
-      {{ user }}
       <button @click="login" >ログイン</button>
+      <button @click="logout" >ログアウト</button>
     </ion-content>
   </ion-page>
 </template>
@@ -21,24 +21,30 @@
 <script lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue'
 import { AuthRepository } from '@/repositories/auth/AuthRepository'
-import { computed } from 'vue'
+import db from '@/plugins/db'
+const usersRef = db.collection('users')
 
 export default {
   name: 'Tab2',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage },
   setup () {
     const a = new AuthRepository()
-    const user = computed(async () => {
-      const user = await a.auth()
-      console.log(user)
-      return user
-    })
 
-    const login = a.signInWithGoogle
+    const login = async () => {
+      const user = await a.signInWithGoogle()
+      if (!user) {
+        throw new Error()
+      }
+      return usersRef.doc(user.uid).set({
+        displayName: user.displayName,
+        photoUrl: user.photoURL
+      })
+    }
+    const logout = a.logout
 
     return {
-      user,
-      login
+      login,
+      logout
     }
   }
 }

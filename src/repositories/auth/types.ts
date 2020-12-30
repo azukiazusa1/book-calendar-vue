@@ -1,4 +1,7 @@
+import firebase from 'firebase'
+
 export interface AuthRepositoryInterface {
-  signInWithGoogle(): Promise<void>;
-  auth(): Promise<any>;
+  signInWithGoogle(): Promise<firebase.User | null>;
+  logout(): Promise<void>;
+  auth(): Promise<firebase.User | null>;
 }
