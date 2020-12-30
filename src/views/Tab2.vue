@@ -11,18 +11,41 @@
           <ion-title size="large">Tab 2</ion-title>
         </ion-toolbar>
       </ion-header>
-      
-      <ExploreContainer name="Tab 2 page" />
+
+      <button @click="login" >ログイン</button>
+      <button @click="logout" >ログアウト</button>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue'
-import ExploreContainer from '@/components/ExploreContainer.vue'
+import { AuthRepository } from '@/repositories/auth/AuthRepository'
+import db from '@/plugins/db'
+const usersRef = db.collection('users')
 
-export default  {
+export default {
   name: 'Tab2',
-  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
+  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage },
+  setup () {
+    const a = new AuthRepository()
+
+    const login = async () => {
+      const user = await a.signInWithGoogle()
+      if (!user) {
+        throw new Error()
+      }
+      return usersRef.doc(user.uid).set({
+        displayName: user.displayName,
+        photoUrl: user.photoURL
+      })
+    }
+    const logout = a.logout
+
+    return {
+      login,
+      logout
+    }
+  }
 }
 </script>
