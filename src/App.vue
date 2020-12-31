@@ -10,7 +10,8 @@
 <script lang="ts">
 import { IonApp, IonRouterOutlet, IonContent } from '@ionic/vue'
 import TheHeader from '@/components/organism/TheHeader.vue'
-import { defineComponent } from 'vue'
+import { defineComponent, provide } from 'vue'
+import userStore, { userKey } from '@/store/user'
 
 export default defineComponent({
   name: 'App',
@@ -19,6 +20,9 @@ export default defineComponent({
     IonRouterOutlet,
     TheHeader,
     IonContent
+  },
+  setup () {
+    provide(userKey, userStore)
   }
 })
 </script>

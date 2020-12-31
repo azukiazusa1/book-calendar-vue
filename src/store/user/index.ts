@@ -6,6 +6,7 @@ const state = reactive<UserState>({
 })
 
 const setUser = (user: User) => {
+  console.log(user)
   state.user = user
 }
 
@@ -16,4 +17,4 @@ const userStore = {
 
 export default userStore
 
-export const key: InjectionKey<UserStore> = Symbol('user')
+export const userKey: InjectionKey<UserStore> = Symbol('user')

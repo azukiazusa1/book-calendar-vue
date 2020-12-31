@@ -1,7 +1,7 @@
 <template>
   <div class="ion-text-center">
     <div class="ion-padding-top">
-      <login-button provider="google" :icon="logoGoogle" />
+      <login-button provider="google" :icon="logoGoogle" @click="signWithGoogle"/>
     </div>
     <div class="ion-padding-top">
       <login-button provider="google" :icon="logoGoogle" />
@@ -16,16 +16,36 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, inject } from 'vue'
+import { useRouter } from 'vue-router'
 import LoginButton from '@/components/molecules/LoginButton.vue'
 import { logoGoogle } from 'ionicons/icons'
+import RepositoryFactory, { AUTH } from '@/repositories/RepositoryFactory'
+import { userKey } from '@/store/user'
+
+const AuthRepository = RepositoryFactory[AUTH]
 
 export default defineComponent({
   components: {
     LoginButton
   },
   setup () {
+    const userStore = inject(userKey)
+    if (!userStore) {
+      throw new Error('userStore is not provided')
+    }
+
+    const router = useRouter()
+
+    const signWithGoogle = async () => {
+      const user = await AuthRepository.signInWithGoogle()
+      if (!user) return
+
+      await userStore.setUser(user)
+      router.push('/tabs/tab1')
+    }
     return {
+      signWithGoogle,
       logoGoogle
     }
   }
