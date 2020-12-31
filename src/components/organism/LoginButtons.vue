@@ -1,6 +1,18 @@
 <template>
-
-  <login-button provider="google" :icon="logoGoogle" />
+  <div class="ion-text-center">
+    <div class="ion-padding-top">
+      <login-button provider="google" :icon="logoGoogle" />
+    </div>
+    <div class="ion-padding-top">
+      <login-button provider="google" :icon="logoGoogle" />
+    </div>
+    <div class="ion-padding-top">
+      <login-button provider="google" :icon="logoGoogle" />
+    </div>
+    <div class="ion-padding-top">
+      <login-button provider="google" :icon="logoGoogle" />
+    </div>
+</div>
 </template>
 
 <script>

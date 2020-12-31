@@ -1,8 +1,10 @@
 <template>
 
-  <ion-button :color="provider">
-    {{ provider }}でログイン
-      <ion-icon slot="start" color="light" :icon="icon" />
+  <ion-button :color="provider" shape="round" fill="outline">
+    <span class="ion-text-capitalize">
+      {{ provider }}でログイン
+    </span>
+      <ion-icon slot="start"  :icon="icon" />
   </ion-button>
 </template>
 
