@@ -1,12 +1,15 @@
-import { inject, InjectionKey, reactive, readonly } from 'vue'
+import { computed, inject, InjectionKey, reactive, readonly } from 'vue'
 import { UserState, UserStore } from '@/store/user/types'
 import { User, UserPayload } from '@/repositories/user'
-import RepositoryFactory, { USER } from '@/repositories/RepositoryFactory'
+import RepositoryFactory, { USER, AUTH } from '@/repositories/RepositoryFactory'
 const UserRepository = RepositoryFactory[USER]
+const AuthRepository = RepositoryFactory[AUTH]
 
 const state = reactive<UserState>({
   user: null
 })
+
+const get = computed(() => state.user)
 
 const set = (user: User) => {
   state.user = user
@@ -35,8 +38,17 @@ const del = async (uid: string) => {
   unset()
 }
 
+(async () => {
+  const user = await AuthRepository.auth()
+  if (!user) return
+
+  state.user = await UserRepository.find(user.uid)
+  console.log(state.user)
+})()
+
 export const userStore = {
   state: readonly(state),
+  get,
   set,
   unset,
   findOrCreate,

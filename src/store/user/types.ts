@@ -1,4 +1,4 @@
-import { DeepReadonly } from 'vue'
+import { ComputedRef, DeepReadonly } from 'vue'
 import { User, UserPayload } from '@/repositories/user/types'
 
 export interface UserState {
@@ -7,6 +7,7 @@ export interface UserState {
 
 export interface UserStore {
   state: DeepReadonly<UserState>;
+  get: ComputedRef<User>;
   set: (user: User) => void;
   unset: () => void;
   findOrCreate: (user: User) => Promise<void>;
