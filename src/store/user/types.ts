@@ -1,9 +1,5 @@
 import { DeepReadonly } from 'vue'
-
-export interface User {
-  displayName: string;
-  photoURL: string;
-}
+import { User } from '@/repositories/user/types'
 
 export interface UserState {
   user: User | null;
