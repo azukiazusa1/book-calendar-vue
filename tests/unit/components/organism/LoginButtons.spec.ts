@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils'
 import LoginButtons from '@/components/organism/LoginButtons.vue'
 import LoignButton from '@/components/molecules/LoginButton.vue'
-import userStore, { userKey } from '@/store/user'
+import { userKey, userStore } from '@/store/user'
 
 const mockPush = jest.fn()
 jest.mock('vue-router', () => ({

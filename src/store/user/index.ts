@@ -17,5 +17,5 @@ export const userStore = {
 export const userKey: InjectionKey<UserStore> = Symbol('user')
 
 export const useUserStore = () => {
-  inject(userKey, userStore)
+  return inject(userKey, userStore)
 }
