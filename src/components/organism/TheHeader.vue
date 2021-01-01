@@ -3,7 +3,7 @@
     <ion-toolbar>
       <ion-title>Tab 1</ion-title>
       <ion-buttons v-if="user" slot="end">
-        <user-avator :user="user" />
+        <user-avatar :user="user" />
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
@@ -17,7 +17,7 @@ import {
   IonButtons
 } from '@ionic/vue'
 import { defineComponent } from 'vue'
-import UserAvator from '@/components/atoms/UserAvator.vue'
+import UserAvatar from '@/components/atoms/UserAvatar.vue'
 import { useUserStore } from '@/store/user'
 
 export default defineComponent({
@@ -26,7 +26,7 @@ export default defineComponent({
     IonTitle,
     IonToolbar,
     IonButtons,
-    UserAvator
+    UserAvatar
   },
   setup () {
     const userStore = useUserStore()

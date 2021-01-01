@@ -1,5 +1,5 @@
 <template>
-  <ion-avatar @click="onClick">
+  <ion-avatar @click="onClick" :slot="slot">
     <ion-img :src="user.photoURL" />
   </ion-avatar>
 
@@ -18,7 +18,12 @@ export default defineComponent({
   props: {
     user: {
       type: Object as PropType<User>,
-      requierd: true
+      required: true
+    },
+    slot: {
+      type: String,
+      required: false,
+      default: ''
     }
   },
   setup () {
