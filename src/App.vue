@@ -13,7 +13,7 @@
 import { IonApp, IonPage, IonRouterOutlet, IonContent } from '@ionic/vue'
 import TheHeader from '@/components/organism/TheHeader.vue'
 import { defineComponent, provide } from 'vue'
-import userStore, { userKey } from '@/store/user'
+import { userStore, userKey } from '@/store/user'
 
 export default defineComponent({
   name: 'App',

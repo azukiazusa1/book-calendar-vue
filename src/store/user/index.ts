@@ -1,4 +1,4 @@
-import { InjectionKey, reactive, readonly } from 'vue'
+import { inject, InjectionKey, reactive, readonly } from 'vue'
 import { User, UserState, UserStore } from '@/store/user/types'
 
 const state = reactive<UserState>({
@@ -9,11 +9,13 @@ const setUser = (user: User) => {
   state.user = user
 }
 
-const userStore = {
+export const userStore = {
   state: readonly(state),
   setUser
 } as UserStore
 
-export default userStore
-
 export const userKey: InjectionKey<UserStore> = Symbol('user')
+
+export const useUserStore = () => {
+  inject(userKey, userStore)
+}
