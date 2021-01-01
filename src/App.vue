@@ -1,5 +1,6 @@
 <template>
   <ion-app>
+    <the-menu />
     <the-header />
     <ion-content>
       <ion-router-outlet />
@@ -8,10 +9,11 @@
 </template>
 
 <script lang="ts">
-import { IonApp, IonRouterOutlet, IonContent } from '@ionic/vue'
+import { IonApp, IonRouterOutlet } from '@ionic/vue'
 import TheHeader from '@/components/organism/TheHeader.vue'
 import { defineComponent, provide } from 'vue'
 import { userStore, userKey } from '@/store/user'
+import TheMenu from '@/components/organism/TheMenu.vue'
 
 export default defineComponent({
   name: 'App',
@@ -19,7 +21,7 @@ export default defineComponent({
     IonApp,
     IonRouterOutlet,
     TheHeader,
-    IonContent
+    TheMenu
   },
   setup () {
     provide(userKey, userStore)
