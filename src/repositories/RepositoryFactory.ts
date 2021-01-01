@@ -1,4 +1,4 @@
-import { AuthRepository, AuthRepositoryInterface } from '@/repositories/auth'
+import { AuthRepository, MockAuthRepository, AuthRepositoryInterface } from '@/repositories/auth'
 
 export const AUTH = Symbol('auth')
 
@@ -7,5 +7,5 @@ export interface Repositories {
 }
 
 export default {
-  [AUTH]: new AuthRepository()
+  [AUTH]: process.env.NODE_ENV === 'test' ? new MockAuthRepository() : new AuthRepository()
 } as Repositories

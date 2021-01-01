@@ -6,7 +6,6 @@ const state = reactive<UserState>({
 })
 
 const setUser = (user: User) => {
-  console.log(user)
   state.user = user
 }
 

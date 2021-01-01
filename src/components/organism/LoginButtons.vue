@@ -36,12 +36,11 @@ export default defineComponent({
     }
 
     const router = useRouter()
-
     const signWithGoogle = async () => {
       const user = await AuthRepository.signInWithGoogle()
       if (!user) return
 
-      await userStore.setUser(user)
+      userStore.setUser(user)
       router.push('/tabs/tab1')
     }
     return {
