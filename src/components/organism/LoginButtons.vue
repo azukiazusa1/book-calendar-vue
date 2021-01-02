@@ -1,7 +1,7 @@
 <template>
   <div class="ion-text-center">
     <div class="ion-padding-top">
-      <login-button provider="google" :icon="logoGoogle" @click="signWithGoogle"/>
+      <login-button provider="google" :icon="logoGoogle" @click="clickGoogle"/>
     </div>
     <div class="ion-padding-top">
       <login-button provider="google" :icon="logoGoogle" />
@@ -31,15 +31,15 @@ export default defineComponent({
     const userStore = useUserStore()
     const router = useRouter()
 
-    const signWithGoogle = async () => {
+    const clickGoogle = async () => {
       const user = await signInWithGoogle()
       if (!user) return
 
       userStore.findOrCreate(user)
-      router.push('/tabs/tab1')
+      router.push('/tabs/tazb1')
     }
     return {
-      signWithGoogle,
+      clickGoogle,
       logoGoogle
     }
   }
