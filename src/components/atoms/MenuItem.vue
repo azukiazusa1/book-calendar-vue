@@ -5,3 +5,15 @@
     </ion-button>
   </ion-item>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { IonItem, IonButton } from '@ionic/vue'
+
+export default defineComponent({
+  components: {
+    IonItem,
+    IonButton
+  }
+})
+</script>
