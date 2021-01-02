@@ -1,7 +1,10 @@
-import { mount } from '@vue/test-utils'
+import { mount, shallowMount } from '@vue/test-utils'
 import TheMenu from '@/components/organism/TheMenu.vue'
+import MenuItem from '@/components/atoms/MenuItem.vue'
 import { IonMenu } from '@ionic/vue'
 import { useUserStore } from '@/store/user'
+import { logout } from '@/composables/use-auth'
+import flushPromises from 'flush-promises'
 
 const mockPush = jest.fn()
 jest.mock('vue-router', () => ({
@@ -16,7 +19,7 @@ jest.mock('@/store/user', () => ({
   useUserStore: jest.fn()
 }))
 
-const mockLogout = jest.fn()
+const mockUnset = jest.fn()
 let mockLoggedIn: boolean
 const user = {
   uid: 'uid',
@@ -32,25 +35,46 @@ const user = {
         return null
       }
     })(),
-    logout: mockLogout
+    unset: mockUnset
   }
 })
 
-const factory = () => {
-  return mount(TheMenu)
-}
+jest.mock('@/composables/use-auth', () => ({
+  logout: jest.fn()
+}))
+
 describe('LoginButtons.vue', () => {
-  test('ログインしていないならサイドメニューを表示しない', () => {
-    mockLoggedIn = false
-    const wrapper = factory()
-    const menu = wrapper.findComponent(IonMenu)
-    expect(menu.exists()).toBeFalsy()
+  describe('サイドメニューの表示', () => {
+    const factory = () => {
+      return shallowMount(TheMenu)
+    }
+
+    test('ログインしていないならサイドメニューを表示しない', () => {
+      mockLoggedIn = false
+      const wrapper = factory()
+      const menu = wrapper.findComponent(IonMenu)
+      expect(menu.exists()).toBeFalsy()
+    })
+
+    test('ログインしているならサイドメニューを表示する', () => {
+      mockLoggedIn = true
+      const wrapper = factory()
+      const userAvatar = wrapper.findComponent(IonMenu)
+      expect(userAvatar.exists()).toBeTruthy()
+    })
   })
 
-  test('ログインしているならサイドメニューを表示する', () => {
+  describe('各メニューをクリックしたとき', () => {
     mockLoggedIn = true
-    const wrapper = factory()
-    const userAvatar = wrapper.findComponent(IonMenu)
-    expect(userAvatar.exists()).toBeTruthy()
+    const wrapper = mount(TheMenu)
+    const menuItems = wrapper.findAllComponents(MenuItem)
+
+    test('1つ目のメニューをクリックしたらログアウトする', async () => {
+      menuItems[0].trigger('click')
+      await flushPromises()
+      expect(logout).toHaveBeenCalled()
+      expect(mockUnset).toHaveBeenCalled()
+      expect(mockPush).toHaveBeenCalledWith('/')
+    })
   })
 })
