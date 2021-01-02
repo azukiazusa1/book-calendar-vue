@@ -41,12 +41,11 @@ const del = async (uid: string) => {
 /**
  * 現在ログインしているなら、stateにユーザーをセットします。
  */
-const created = async () => {
+export const created = async () => {
   const user = await auth()
   if (!user) return
 
   state.user = await UserRepository.find(user.uid)
-  console.log(state.user)
 }
 
 created()
