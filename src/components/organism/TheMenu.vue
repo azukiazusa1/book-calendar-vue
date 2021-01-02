@@ -9,7 +9,7 @@
     <ion-content id="main">
       <ion-list>
         <menu-header :user="user" />
-        <menu-item @click="logout">ログアウト</menu-item>
+        <menu-item @click="clickLogout">ログアウト</menu-item>
       </ion-list>
     </ion-content>
   </ion-menu>
@@ -21,9 +21,8 @@ import { IonMenu, IonContent, IonList } from '@ionic/vue'
 import MenuItem from '@/components/atoms/MenuItem.vue'
 import MenuHeader from '@/components/molecules/MenuHeader.vue'
 import { useUserStore } from '@/store/user'
-import RegistoryFactory, { AUTH } from '@/repositories/RepositoryFactory'
+import { logout } from '@/composables/use-auth'
 import { useRouter } from 'vue-router'
-const AuthRepository = RegistoryFactory[AUTH]
 
 export default defineComponent({
   components: {
@@ -37,16 +36,16 @@ export default defineComponent({
     const userStore = useUserStore()
     const router = useRouter()
 
-    const logout = async () => {
+    const clickLogout = async () => {
       console.log('logout')
-      await AuthRepository.logout()
+      await logout()
       userStore.unset()
       router.push('/')
     }
 
     return {
       user: userStore.get,
-      logout
+      clickLogout
     }
   }
 })
