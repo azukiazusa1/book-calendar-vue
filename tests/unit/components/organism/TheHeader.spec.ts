@@ -28,7 +28,7 @@ const user = {
 const factory = () => {
   return mount(TheHeader)
 }
-describe('LoginButtons.vue', () => {
+describe('TheHeader.vue', () => {
   test('ログインしていないならユーザーアバターを表示しない', () => {
     mockLoggedIn = false
     const wrapper = factory()
