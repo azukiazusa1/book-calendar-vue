@@ -20,10 +20,8 @@ import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import LoginButton from '@/components/molecules/LoginButton.vue'
 import { logoGoogle } from 'ionicons/icons'
-import RepositoryFactory, { AUTH } from '@/repositories/RepositoryFactory'
+import { signInWithGoogle } from '@/composables/use-auth'
 import { useUserStore } from '@/store/user'
-
-const AuthRepository = RepositoryFactory[AUTH]
 
 export default defineComponent({
   components: {
@@ -34,7 +32,7 @@ export default defineComponent({
     const router = useRouter()
 
     const signWithGoogle = async () => {
-      const user = await AuthRepository.signInWithGoogle()
+      const user = await signInWithGoogle()
       if (!user) return
 
       userStore.findOrCreate(user)
