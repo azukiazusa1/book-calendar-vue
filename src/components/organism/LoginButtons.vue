@@ -37,7 +37,7 @@ export default defineComponent({
       const user = await AuthRepository.signInWithGoogle()
       if (!user) return
 
-      userStore.setUser(user)
+      userStore.findOrCreate(user)
       router.push('/tabs/tab1')
     }
     return {

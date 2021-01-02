@@ -1,9 +1,5 @@
-import { DeepReadonly } from 'vue'
-
-export interface User {
-  displayName: string;
-  photoURL: string;
-}
+import { ComputedRef, DeepReadonly } from 'vue'
+import { User, UserPayload } from '@/repositories/user/types'
 
 export interface UserState {
   user: User | null;
@@ -11,5 +7,10 @@ export interface UserState {
 
 export interface UserStore {
   state: DeepReadonly<UserState>;
-  setUser: (user: User) => void;
+  get: ComputedRef<User>;
+  set: (user: User) => void;
+  unset: () => void;
+  findOrCreate: (user: User) => Promise<void>;
+  update: (uid: string, payload: UserPayload) => Promise<void>;
+  delete: (uid: string) => Promise<void>;
 }
