@@ -60,4 +60,12 @@ describe('store/user', () => {
       expect(userStore.state.user?.uid).toBe(user.uid)
     })
   })
+
+  describe('delete', () => {
+    test('stateのユーザーがnullに設定される', async () => {
+      userStore.set(user)
+      await userStore.delete(user.uid)
+      expect(userStore.state.user).toBeNull()
+    })
+  })
 })
