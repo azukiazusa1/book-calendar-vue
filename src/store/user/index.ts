@@ -38,13 +38,18 @@ const del = async (uid: string) => {
   unset()
 }
 
-(async () => {
+/**
+ * 現在ログインしているなら、stateにユーザーをセットします。
+ */
+const created = async () => {
   const user = await auth()
   if (!user) return
 
   state.user = await UserRepository.find(user.uid)
   console.log(state.user)
-})()
+}
+
+created()
 
 export const userStore = {
   state: readonly(state),
@@ -58,6 +63,9 @@ export const userStore = {
 
 export const userKey: InjectionKey<UserStore> = Symbol('user')
 
+/**
+ * userStoreを返します。
+ */
 export const useUserStore = () => {
   return inject(userKey, userStore)
 }
