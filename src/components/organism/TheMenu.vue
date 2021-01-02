@@ -14,11 +14,7 @@
             <ion-label>{{ user.displayName }}</ion-label>
           </ion-item>
         </ion-list-header>
-        <ion-item @click="logout">
-          <ion-button fill="clear" color="dark" size="default">
-            ログアウト
-          </ion-button>
-        </ion-item>
+        <menu-item @click="logout">ログアウト</menu-item>
       </ion-list>
     </ion-content>
   </ion-menu>
@@ -26,8 +22,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { IonMenu, IonListHeader, IonContent, IonList, IonItem, IonLabel, IonButton } from '@ionic/vue'
+import { IonMenu, IonListHeader, IonContent, IonList, IonItem, IonLabel } from '@ionic/vue'
 import UserAvatar from '@/components/atoms/UserAvatar.vue'
+import MenuItem from '@/components/atoms/MenuItem.vue'
 import { useUserStore } from '@/store/user'
 import RegistoryFactory, { AUTH } from '@/repositories/RepositoryFactory'
 import { useRouter } from 'vue-router'
@@ -42,7 +39,7 @@ export default defineComponent({
     IonItem,
     IonLabel,
     UserAvatar,
-    IonButton
+    MenuItem
   },
   setup () {
     const userStore = useUserStore()
