@@ -41,9 +41,23 @@ describe('store/user', () => {
   })
 
   describe('findOrCreate', () => {
-    test('stateにユーザーを設定する', () => {
-      userStore.findOrCreate(user)
+    test('stateにユーザーを設定する', async () => {
+      await userStore.findOrCreate(user)
       expect(userStore.state.user).toBeDefined()
+    })
+  })
+
+  describe('update', () => {
+    test('stateのユーザーが更新される', async () => {
+      userStore.set(user)
+      const updateUser = {
+        displayName: 'updateName',
+        photoURL: 'updatePhoto'
+      }
+      await userStore.update(user.uid, updateUser)
+      expect(userStore.state.user?.displayName).toBe(updateUser.displayName)
+      expect(userStore.state.user?.photoURL).toBe(updateUser.photoURL)
+      expect(userStore.state.user?.uid).toBe(user.uid)
     })
   })
 })
