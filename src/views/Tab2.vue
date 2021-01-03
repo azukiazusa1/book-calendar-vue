@@ -1,5 +1,6 @@
 <template>
   <ion-page>
+    <ion-searchbar animated placeholder="題名・著者・ISBN" />
     <Suspense>
       <async-book-list />
     </Suspense>
@@ -7,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { IonPage } from '@ionic/vue'
+import { IonPage, IonSearchbar } from '@ionic/vue'
 import AsyncBookList from '@/components/organism/AsyncBookList.vue'
 import { useTitle } from 'vue-composable'
 import { APP_TITLE } from '@/constant'
@@ -16,6 +17,7 @@ export default {
   name: 'Tab2',
   components: {
     IonPage,
+    IonSearchbar,
     AsyncBookList
   },
   setup () {
