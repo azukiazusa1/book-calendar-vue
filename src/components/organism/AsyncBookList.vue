@@ -1,11 +1,10 @@
 <template>
-  <h1>{{ res.data }}</h1>
+  <h1>{{ res }}</h1>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from 'vue'
-import 'firebase/functions'
-import firebase from '@/plugins/firebase'
+import { defineComponent } from 'vue'
+import { useSearchBooks } from '@/composables/use-searchBooks'
 
 export default defineComponent({
   props: {
@@ -15,20 +14,7 @@ export default defineComponent({
     }
   },
   async setup (props) {
-    const functions = firebase.functions()
-    functions.useFunctionsEmulator('http://localhost:5001')
-    const func = functions.httpsCallable('books')
-    const res = ref<any>(null)
-    watchEffect(async () => {
-      const r = await func({
-        q: props.q
-      })
-      res.value = r
-    })
-    const r = await func({
-      q: props.q
-    })
-    res.value = r
+    const res = await useSearchBooks(props)
     return {
       res
     }
