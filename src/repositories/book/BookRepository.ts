@@ -9,6 +9,6 @@ const func = functions.httpsCallable('books')
 export class BookRepository implements BookRepositoryInterface {
   async find (params: Params) {
     const result = await func(params)
-    return result.data as Result
+    return result.data.data as Result
   }
 }

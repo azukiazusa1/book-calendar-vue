@@ -1,14 +1,14 @@
 export interface BookItem {
   id: string;
   price?: number;
-  auhtors: string[];
-  categories: string[];
-  imageLinks: ImageLinks;
+  auhtors?: string[];
+  categories?: string[];
+  imageLinks?: ImageLinks;
   pageCount: number;
   publishedDate: string;
-  publisher: string;
+  publisher?: string;
   title: string;
-  description: string;
+  description?: string;
   infoLink: string;
   previewLink: string;
 }
