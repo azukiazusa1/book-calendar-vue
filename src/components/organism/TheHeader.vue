@@ -1,7 +1,7 @@
 <template>
   <ion-header>
     <ion-toolbar>
-      <ion-title>Tab 1</ion-title>
+      <ion-title>{{ APP_TITLE }}</ion-title>
       <ion-buttons v-if="user" slot="end">
         <user-avatar :user="user" />
       </ion-buttons>
@@ -19,6 +19,7 @@ import {
 import { defineComponent } from 'vue'
 import UserAvatar from '@/components/atoms/UserAvatar.vue'
 import { useUserStore } from '@/store/user'
+import { APP_TITLE } from '@/constant'
 
 export default defineComponent({
   components: {
@@ -32,7 +33,8 @@ export default defineComponent({
     const userStore = useUserStore()
 
     return {
-      user: userStore.get
+      user: userStore.get,
+      APP_TITLE
     }
   }
 })
