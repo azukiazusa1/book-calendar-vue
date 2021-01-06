@@ -1,6 +1,9 @@
 <template>
   <ion-list>
-    <book-item v-for="book in res.items" :key="book.id" :book="book" />
+    <div v-if="empty">
+      検索結果が見つかりませんでした。
+    </div>
+    <book-item v-else v-for="book in result.items" :key="book.id" :book="book" />
   </ion-list>
 </template>
 
@@ -22,9 +25,10 @@ export default defineComponent({
     }
   },
   async setup (props) {
-    const res = await useSearchBooks(props)
+    const { result, empty } = await useSearchBooks(props)
     return {
-      res
+      result,
+      empty
     }
   }
 })
