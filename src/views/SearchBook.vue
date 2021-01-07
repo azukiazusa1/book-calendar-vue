@@ -17,7 +17,6 @@ import { APP_TITLE } from '@/constant'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  name: 'Tab2',
   components: {
     IonPage,
     IonContent,

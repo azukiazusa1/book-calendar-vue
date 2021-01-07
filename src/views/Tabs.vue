@@ -7,9 +7,9 @@
           <ion-label>Tab 1</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="tab2" href="/tabs/tab2">
-          <ion-icon :icon="ellipse" />
-          <ion-label>Tab 2</ion-label>
+        <ion-tab-button tab="tab2" href="/tabs/search">
+          <ion-icon :icon="searchSharp" />
+          <ion-label>本を探す</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="tab3" href="/tabs/tab3">
@@ -23,14 +23,14 @@
 
 <script lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage } from '@ionic/vue'
-import { ellipse, square, triangle } from 'ionicons/icons'
+import { searchSharp, square, triangle } from 'ionicons/icons'
 
 export default {
   name: 'Tabs',
   components: { IonLabel, IonTabs, IonTabBar, IonTabButton, IonIcon, IonPage },
   setup () {
     return {
-      ellipse,
+      searchSharp,
       square,
       triangle
     }
