@@ -7,9 +7,7 @@
         <async-book-list :q="q" />
       </template>
       <template #fallback>
-        <div class="ion-text-center ion-padding-vertical">
-        <app-loading />
-        </div>
+        <skelton-list />
       </template>
     </Suspense>
     </ion-content>
@@ -19,7 +17,7 @@
 <script lang="ts">
 import { IonPage, IonContent, IonSearchbar } from '@ionic/vue'
 import AsyncBookList from '@/components/organism/AsyncBookList.vue'
-import AppLoading from '@/components/atoms/AppLoading.vue'
+import SkeltonList from '@/components/molecules/SkeltonList.vue'
 import { useTitle } from 'vue-composable'
 import { APP_TITLE } from '@/constant'
 import { defineComponent, ref } from 'vue'
@@ -30,7 +28,7 @@ export default defineComponent({
     IonContent,
     IonSearchbar,
     AsyncBookList,
-    AppLoading
+    SkeltonList
   },
   setup () {
     const title = useTitle()
