@@ -5,7 +5,7 @@
         class="tuhmbnail"
         v-if="book.imageLinks"
         :src="book.imageLinks.smallThumbnail"
-         />
+      />
     <ion-label>
       <h2>{{ book.title }}</h2>
       <h3 v-if="book.auhtors">{{ book.auhtors[0] }}</h3>

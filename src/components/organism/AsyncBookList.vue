@@ -10,8 +10,9 @@
 <script lang="ts">
 import { IonList } from '@ionic/vue'
 import BookItem from '@/components/molecules/BookItem.vue'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { useSearchBooks } from '@/composables/use-searchBooks'
+import { OrderBy } from '@/repositories/book'
 
 export default defineComponent({
   components: {
@@ -21,6 +22,10 @@ export default defineComponent({
   props: {
     q: {
       type: String,
+      required: true
+    },
+    orderBy: {
+      type: String as PropType<OrderBy>,
       required: true
     }
   },
