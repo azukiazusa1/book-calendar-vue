@@ -3,9 +3,9 @@
       <ion-img
         slot="start"
         class="tuhmbnail"
-        v-if="book.imageLinks"
-        :src="book.imageLinks.smallThumbnail"
+        :src="thumbnail"
       />
+
     <ion-label>
       <h2>{{ book.title }}</h2>
       <h3 v-if="book.auhtors">{{ book.auhtors[0] }}</h3>
@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { IonItem, IonImg, IonLabel } from '@ionic/vue'
-import { defineComponent, PropType } from 'vue'
+import { computed, defineComponent, PropType } from 'vue'
 import { BookItem } from '@/repositories/book'
 
 export default defineComponent({
@@ -32,7 +32,13 @@ export default defineComponent({
     }
   },
   setup (props) {
-    console.log(props.book)
+    const thumbnail = computed(() => {
+      return props.book.imageLinks?.smallThumbnail ?? '/assets/icon/no-image.png'
+    })
+
+    return {
+      thumbnail
+    }
   }
 })
 </script>
