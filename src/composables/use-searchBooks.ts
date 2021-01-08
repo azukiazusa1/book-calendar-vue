@@ -1,15 +1,24 @@
 import { computed, ref, watchEffect } from 'vue'
-import { Result, BookRepository, Params } from '@/repositories/book'
+import { Result, BookRepository, OrderBy } from '@/repositories/book'
 
 const b = new BookRepository()
-export const useSearchBooks = async (params: Params) => {
+export const q = ref('')
+export const orderBy = ref<OrderBy>('relevance')
+
+export const useSearchBooks = async () => {
   const result = ref<Result | null>(null)
+
   watchEffect(async () => {
-    console.log(params)
-    const r = await b.find(params)
+    const r = await b.find({
+      q: q.value,
+      orderBy: orderBy.value
+    })
     result.value = r
   })
-  const r = await b.find(params)
+  const r = await b.find({
+    q: q.value,
+    orderBy: orderBy.value
+  })
   result.value = r
 
   const empty = computed(() => {

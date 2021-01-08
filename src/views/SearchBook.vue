@@ -24,8 +24,8 @@ import SearchArea from '@/components/molecules/SearchArea.vue'
 import SkeltonList from '@/components/molecules/SkeltonList.vue'
 import { useTitle } from 'vue-composable'
 import { APP_TITLE } from '@/constant'
-import { defineComponent, ref } from 'vue'
-import { OrderBy } from '@/repositories/book'
+import { defineComponent } from 'vue'
+import { q, orderBy } from '@/composables/use-searchBooks'
 
 export default defineComponent({
   components: {
@@ -38,9 +38,6 @@ export default defineComponent({
   setup () {
     const title = useTitle()
     title.value = `本を探す | ${APP_TITLE}`
-
-    const q = ref('')
-    const orderBy = ref<OrderBy>('relevance')
 
     return {
       q,
