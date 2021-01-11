@@ -10,7 +10,9 @@ export interface Repositories {
   [BOOK]: BookRepositoryInterface;
 }
 
+const isMock = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'mock'
+
 export default {
-  [USER]: process.env.NODE_ENV === 'test' ? new MockUserRepository() : new UserRepository(),
-  [BOOK]: process.env.NODE_ENV === 'test' ? new MockBookRepository() : new BookRepository()
+  [USER]: isMock ? new MockUserRepository() : new UserRepository(),
+  [BOOK]: isMock ? new MockBookRepository() : new BookRepository()
 } as Repositories
