@@ -23,6 +23,9 @@ export const STOCK = 'stock'
  */
 export type Status = typeof UNREAD | typeof READING | typeof READ | typeof STOCK
 
+/**
+ * 本の情報
+ */
 export interface BookItem {
   id: string;
   price?: number;

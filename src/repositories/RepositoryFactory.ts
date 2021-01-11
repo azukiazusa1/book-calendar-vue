@@ -1,6 +1,5 @@
 import { UserRepository, MockUserRepository, UserReositoryInterface } from '@/repositories/user'
-import { BookRepository, BookRepositoryInterface } from '@/repositories/book'
-import { MockBookRepository } from './book/MockBookRepository'
+import { BookRepository, BookRepositoryInterface, MockBookRepository } from '@/repositories/book'
 
 export const USER = Symbol('user')
 export const BOOK = Symbol('book')
