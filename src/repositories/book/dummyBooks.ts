@@ -12,7 +12,7 @@ export default [
     publishedDate: '2020-01-01',
     publisher: 'publisher',
     title: 'title',
-    description: 'lorem ipsum',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque aliquet risus vel ligula maximus dictum. Vestibulum ultrices mauris nec dolor bibendum auctor. Phasellus rutrum, massa quis mollis ullamcorper, tellus dui malesuada tortor, vel porta leo tellus et erat. Vestibulum luctus vulputate risus, vitae porttitor lorem scelerisque venenatis. Duis nunc purus, mollis quis urna sed, gravida dapibus nisi. In id tortor arcu. Aenean semper erat quis eleifend convallis.',
     infoLink: 'http://example.com/info',
     previewLink: 'http://example.com/preview'
   }

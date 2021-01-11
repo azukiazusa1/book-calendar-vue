@@ -1,5 +1,5 @@
 import { UserRepository, MockUserRepository, UserReositoryInterface } from '@/repositories/user'
-import { BookRepositoryInterface } from '@/repositories/book'
+import { BookRepository, BookRepositoryInterface } from '@/repositories/book'
 import { MockBookRepository } from './book/MockBookRepository'
 
 export const USER = Symbol('user')
@@ -12,5 +12,5 @@ export interface Repositories {
 
 export default {
   [USER]: process.env.NODE_ENV === 'test' ? new MockUserRepository() : new UserRepository(),
-  [BOOK]: process.env.NODE_ENV === 'test' ? new MockUserRepository() : new MockBookRepository()
+  [BOOK]: process.env.NODE_ENV === 'test' ? new MockBookRepository() : new BookRepository()
 } as Repositories
