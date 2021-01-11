@@ -1,3 +1,28 @@
+/**
+ * 未読
+ */
+export const UNREAD = 'unread'
+
+/**
+ * 読書中
+ */
+export const READING = 'rading'
+
+/**
+ * 読了
+ */
+export const READ = 'read'
+
+/**
+ * ストック
+ */
+export const STOCK = 'stock'
+
+/**
+ * 本の登録状態
+ */
+export type Status = typeof UNREAD | typeof READING | typeof READ | typeof STOCK
+
 export interface BookItem {
   id: string;
   price?: number;
@@ -11,6 +36,7 @@ export interface BookItem {
   description?: string;
   infoLink: string;
   previewLink: string;
+  status: Status;
 }
 
 export interface ImageLinks {
