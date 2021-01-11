@@ -1,7 +1,7 @@
 import { computed, reactive, toRefs, ref, watch } from 'vue'
-import { Result, BookRepository, Params } from '@/repositories/book'
-
-const b = new BookRepository()
+import { Result, Params } from '@/repositories/book'
+import RepositoryFactory, { BOOK } from '@/repositories/RepositoryFactory'
+const BookRepository = RepositoryFactory[BOOK]
 
 const params = reactive<Params>({
   q: '',
@@ -21,15 +21,15 @@ export const useSearchBooks = async () => {
   watch(params, async () => {
     if (!params.q) return
     startIndex.value = 1
-    const r = await b.find({ ...params, startIndex: startIndex.value })
+    const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
     result.value = r
   })
-  const r = await b.find(params)
+  const r = await BookRepository.find(params)
   result.value = r
 
   const nextPage = async (e: any) => {
     startIndex.value += 10
-    const r = await b.find({ ...params, startIndex: startIndex.value })
+    const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
     e.target.complete()
     if (result.value) {
       result.value.items = [...result.value.items, ...r.items]
