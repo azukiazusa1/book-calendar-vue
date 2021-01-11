@@ -4,36 +4,38 @@
       検索結果が見つかりませんでした。
     </div>
     <book-item v-else v-for="book in result.items" :key="book.id" :book="book" />
+     <ion-infinite-scroll
+        @ionInfinite="nextPage($event)"
+        :disabled="isDisabled"
+      >
+        <ion-infinite-scroll-content
+          loading-spinner="bubbles"
+          loading-text="Loading more data...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
   </ion-list>
 </template>
 
 <script lang="ts">
-import { IonList } from '@ionic/vue'
+import { IonList, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/vue'
 import BookItem from '@/components/molecules/BookItem.vue'
-import { defineComponent, PropType } from 'vue'
+import { defineComponent } from 'vue'
 import { useSearchBooks } from '@/composables/use-searchBooks'
-import { OrderBy } from '@/repositories/book'
 
 export default defineComponent({
   components: {
     IonList,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
     BookItem
   },
-  props: {
-    q: {
-      type: String,
-      required: true
-    },
-    orderBy: {
-      type: String as PropType<OrderBy>,
-      required: true
-    }
-  },
-  async setup (props) {
-    const { result, empty } = await useSearchBooks(props)
+  async setup () {
+    const { result, empty, nextPage, isDisabled } = await useSearchBooks()
     return {
       result,
-      empty
+      empty,
+      nextPage,
+      isDisabled
     }
   }
 })
