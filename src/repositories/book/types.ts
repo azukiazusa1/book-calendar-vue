@@ -40,6 +40,8 @@ export interface BookItem {
   infoLink: string;
   previewLink: string;
   status: Status;
+  startDate?: Date | string;
+  endDate?: Date | string;
 }
 
 export interface ImageLinks {
