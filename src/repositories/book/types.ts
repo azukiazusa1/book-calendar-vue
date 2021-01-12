@@ -6,7 +6,7 @@ export const UNREAD = 'unread'
 /**
  * 読書中
  */
-export const READING = 'rading'
+export const READING = 'reading'
 
 /**
  * 読了
