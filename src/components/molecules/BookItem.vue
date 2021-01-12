@@ -16,7 +16,7 @@
           class="button ion-margin-end"
           size="small"
           color="secondary"
-          @click="clickRegistAsReading(book)"
+          @click="clickRegistAsReading"
         >
           読書開始
         </ion-button>
@@ -31,7 +31,6 @@
 import { IonItem, IonImg, IonLabel, IonBadge, IonButton } from '@ionic/vue'
 import { computed, defineComponent, PropType } from 'vue'
 import { BookItem, READING } from '@/repositories/book'
-import { useBookStore } from '@/store/book'
 
 export default defineComponent({
   components: {
@@ -47,14 +46,16 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props) {
-    const bookStore = useBookStore()
+  emits: [
+    'clickRegistAsReading'
+  ],
+  setup (props, { emit }) {
     const thumbnail = computed(() => {
       return props.book.imageLinks?.smallThumbnail ?? '/assets/icon/no-image.png'
     })
 
-    const clickRegistAsReading = (book: BookItem) => {
-      bookStore.registAsReading(book)
+    const clickRegistAsReading = () => {
+      emit('clickRegistAsReading', props.book)
     }
     return {
       thumbnail,

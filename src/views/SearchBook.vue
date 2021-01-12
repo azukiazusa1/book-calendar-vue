@@ -42,10 +42,10 @@ export default defineComponent({
     const title = useTitle()
     title.value = `本を探す | ${APP_TITLE}`
 
-    const err = ref<unknown>(null)
+    const err = ref<boolean>(false)
 
     onErrorCaptured(e => {
-      err.value = e
+      err.value = !!e
       return true
     })
 
