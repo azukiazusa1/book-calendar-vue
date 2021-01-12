@@ -12,7 +12,14 @@
       <p>{{ book.description }}</p>
       <ion-badge v-if="book.status === READING" class="ion-margin-top">読書中!</ion-badge>
       <div class="ion-margin-top">
-        <ion-button class="button ion-margin-end" size="small" color="secondary">読書開始</ion-button>
+        <ion-button
+          class="button ion-margin-end"
+          size="small"
+          color="secondary"
+          @click="clickRegistAsReading(book)"
+        >
+          読書開始
+        </ion-button>
         <ion-button class="button ion-margin-end" size="small" color="tertiary">読了</ion-button>
         <ion-button class="button ion-margin-end" size="small" color="success">ストック</ion-button>
       </div>
@@ -24,6 +31,7 @@
 import { IonItem, IonImg, IonLabel, IonBadge, IonButton } from '@ionic/vue'
 import { computed, defineComponent, PropType } from 'vue'
 import { BookItem, READING } from '@/repositories/book'
+import { useBookStore } from '@/store/book'
 
 export default defineComponent({
   components: {
@@ -40,11 +48,17 @@ export default defineComponent({
     }
   },
   setup (props) {
+    const bookStore = useBookStore()
     const thumbnail = computed(() => {
       return props.book.imageLinks?.smallThumbnail ?? '/assets/icon/no-image.png'
     })
+
+    const clickRegistAsReading = (book: BookItem) => {
+      bookStore.registAsReading(book)
+    }
     return {
       thumbnail,
+      clickRegistAsReading,
       READING
     }
   }
