@@ -8,6 +8,6 @@ export interface BookState {
 export interface BookStore {
   state: DeepReadonly<BookState>;
   registAsReading: (book: BookItem) => Promise<void>;
-  registAsRead: (book: BookItem) => Promise<void>;
+  registAsRead: (book: BookItem, startDate: Date, endDate: Date) => Promise<void>;
   registAsStock: (book: BookItem) => Promise<void>;
 }

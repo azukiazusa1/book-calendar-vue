@@ -1,4 +1,4 @@
-import { setReading } from '@/composables/use-bookStatus'
+import { setStatusAsRead, setStatusAsReading, setStatusAsStock } from '@/composables/use-bookStatus'
 import { BookItem } from '@/repositories/book'
 import { reactive, readonly, InjectionKey, inject } from 'vue'
 import { BookState, BookStore } from './types'
@@ -13,8 +13,9 @@ const state = reactive<BookState>({
  * @param book
  */
 const registAsReading = async (book: BookItem) => {
-  const readingBook = setReading(book)
+  const readingBook = setStatusAsReading(book)
   readingBook.startDate = new Date()
+  state.books.push(readingBook)
 }
 
 /**
@@ -22,8 +23,11 @@ const registAsReading = async (book: BookItem) => {
  *
  * @param book
  */
-const registAsRead = async (book: BookItem) => {
-
+const registAsRead = async (book: BookItem, startDate: Date, endDate: Date) => {
+  const readBook = setStatusAsRead(book)
+  readBook.startDate = startDate
+  readBook.endDate = endDate
+  state.books.push(readBook)
 }
 
 /**
@@ -32,7 +36,8 @@ const registAsRead = async (book: BookItem) => {
  * @param book
  */
 const registAsStock = async (book: BookItem) => {
-
+  const stockBook = setStatusAsStock(book)
+  state.books.push(stockBook)
 }
 
 export const bookStore = {
