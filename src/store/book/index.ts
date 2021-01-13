@@ -1,7 +1,9 @@
 import { setStatusAsRead, setStatusAsReading, setStatusAsStock } from '@/composables/use-bookStatus'
 import { BookItem } from '@/repositories/book'
+import RepositoryFactory, { BOOK } from '@/repositories/RepositoryFactory'
 import { reactive, readonly, InjectionKey, inject } from 'vue'
 import { BookState, BookStore } from './types'
+const BookRepository = RepositoryFactory[BOOK]
 
 const state = reactive<BookState>({
   books: []
@@ -15,7 +17,8 @@ const state = reactive<BookState>({
 const registAsReading = async (book: BookItem) => {
   const readingBook = setStatusAsReading(book)
   readingBook.startDate = new Date()
-  state.books.push(readingBook)
+  const data = await BookRepository.regist(readingBook)
+  state.books.push(data)
 }
 
 /**
@@ -27,7 +30,8 @@ const registAsRead = async (book: BookItem, startDate: Date, endDate: Date) => {
   const readBook = setStatusAsRead(book)
   readBook.startDate = startDate
   readBook.endDate = endDate
-  state.books.push(readBook)
+  const data = await BookRepository.regist(readBook)
+  state.books.push(data)
 }
 
 /**
@@ -37,7 +41,8 @@ const registAsRead = async (book: BookItem, startDate: Date, endDate: Date) => {
  */
 const registAsStock = async (book: BookItem) => {
   const stockBook = setStatusAsStock(book)
-  state.books.push(stockBook)
+  const data = await BookRepository.regist(stockBook)
+  state.books.push(data)
 }
 
 export const bookStore = {
