@@ -9,6 +9,8 @@
       :key="book.id"
       :book="book"
       @clickRegistAsReading="registAsReading"
+      @clickRegistAsRead="registAsRead"
+      @clickRegistAsStock="registAsStock"
     />
      <ion-infinite-scroll
         @ionInfinite="nextPage($event)"
@@ -37,7 +39,7 @@ export default defineComponent({
     BookItem
   },
   async setup () {
-    const { registAsReading } = useBookStore()
+    const { registAsReading, registAsRead, registAsStock } = useBookStore()
     const { result, empty, nextPage, isDisabled } = await useSearchBooks()
 
     return {
@@ -45,7 +47,9 @@ export default defineComponent({
       empty,
       nextPage,
       isDisabled,
-      registAsReading
+      registAsReading,
+      registAsRead,
+      registAsStock
     }
   }
 })

@@ -5,7 +5,6 @@
         class="tuhmbnail"
         :src="thumbnail"
       />
-
     <ion-label>
       <h2>{{ book.title }}</h2>
       <h3 v-if="book.auhtors">{{ book.auhtors[0] }}</h3>
@@ -20,8 +19,22 @@
         >
           読書開始
         </ion-button>
-        <ion-button class="button ion-margin-end" size="small" color="tertiary">読了</ion-button>
-        <ion-button class="button ion-margin-end" size="small" color="success">ストック</ion-button>
+        <ion-button
+          class="button ion-margin-end"
+          size="small"
+          color="tertiary"
+          @click="clickRegistAsRead"
+        >
+          読了
+        </ion-button>
+        <ion-button
+          class="button ion-margin-end"
+          size="small"
+          color="success"
+          @click="clickRegistAsStock"
+        >
+          ストック
+        </ion-button>
       </div>
     </ion-label>
   </ion-item>
@@ -47,7 +60,9 @@ export default defineComponent({
     }
   },
   emits: [
-    'clickRegistAsReading'
+    'clickRegistAsReading',
+    'clickRegistAsRead',
+    'clickRegistAsStock'
   ],
   setup (props, { emit }) {
     const thumbnail = computed(() => {
@@ -57,9 +72,17 @@ export default defineComponent({
     const clickRegistAsReading = () => {
       emit('clickRegistAsReading', props.book)
     }
+    const clickRegistAsRead = () => {
+      emit('clickRegistAsRead', props.book)
+    }
+    const clickRegistAsStock = () => {
+      emit('clickRegistAsStock', props.book)
+    }
     return {
       thumbnail,
       clickRegistAsReading,
+      clickRegistAsRead,
+      clickRegistAsStock,
       READING
     }
   }
