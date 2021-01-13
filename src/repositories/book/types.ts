@@ -55,7 +55,36 @@ export interface Result {
   totalItems: number;
 }
 
-export type OrderBy = 'relevance' | 'newest'
+/**
+ * おすすめ順
+ */
+export const RELEVANCE = 'relevance'
+
+/**
+ * 発売日順
+ */
+export const NEWEST = 'newest'
+
+export type OrderBy = typeof RELEVANCE | typeof NEWEST
+
+/**
+ * 取得タイプ：すべて
+ */
+export const ALL = 'all'
+
+/**
+ * 取得タイプ：本
+ */
+export const BOOKS = 'books'
+
+/**
+ * 取得タイプ：雑誌
+ */
+export const magazines = 'magazines'
+
+/**
+ * 取得タイプ
+ */
 export type PrintType = 'all' | 'books' | 'magazines'
 
 export interface Params {

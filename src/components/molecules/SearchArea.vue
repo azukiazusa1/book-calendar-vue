@@ -8,10 +8,10 @@
   <ion-segment :value="orderBy"
     @ionChange="$emit('update:orderBy',($event.detail.value))"
   >
-    <ion-segment-button value="relevance">
+    <ion-segment-button :value="RELEVANCE">
       <ion-label>関連度順</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="newest">
+    <ion-segment-button :value="NEWEST">
       <ion-label>発売日順</ion-label>
     </ion-segment-button>
   </ion-segment>
@@ -20,7 +20,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { IonSearchbar, IonSegment, IonSegmentButton, IonLabel } from '@ionic/vue'
-import { OrderBy } from '@/repositories/book'
+import { RELEVANCE, NEWEST, OrderBy } from '@/repositories/book'
 
 export default defineComponent({
   components: {
@@ -37,6 +37,12 @@ export default defineComponent({
     orderBy: {
       type: String as PropType<OrderBy>,
       required: true
+    }
+  },
+  setup () {
+    return {
+      RELEVANCE,
+      NEWEST
     }
   }
 })

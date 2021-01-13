@@ -1,5 +1,5 @@
 import { computed, reactive, toRefs, ref, watch } from 'vue'
-import { Result, Params } from '@/repositories/book'
+import { Result, Params, RELEVANCE } from '@/repositories/book'
 import RepositoryFactory, { BOOK } from '@/repositories/RepositoryFactory'
 import debounce from 'lodash.debounce'
 const BookRepository = RepositoryFactory[BOOK]
@@ -9,7 +9,7 @@ const BookRepository = RepositoryFactory[BOOK]
  */
 const params = reactive<Params>({
   q: '',
-  orderBy: 'relevance'
+  orderBy: RELEVANCE
 })
 
 export const { q, orderBy } = toRefs(params)
