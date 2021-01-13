@@ -10,6 +10,8 @@
       <h3 v-if="book.auhtors">{{ book.auhtors[0] }}</h3>
       <p>{{ book.description }}</p>
       <ion-badge v-if="book.status === READING" class="ion-margin-top">読書中!</ion-badge>
+      <ion-badge v-if="book.status === READ" class="ion-margin-top">読了済!</ion-badge>
+      <ion-badge v-if="book.status === STOCK" class="ion-margin-top">ストック済!</ion-badge>
       <div class="ion-margin-top">
         <ion-button
           class="button ion-margin-end"
@@ -38,12 +40,20 @@
       </div>
     </ion-label>
   </ion-item>
+  <ion-modal
+    :is-open="isOpenModal"
+    @onDidDismiss="closeModal"
+  >
+    <edit-modal />
+  </ion-modal>
 </template>
 
 <script lang="ts">
-import { IonItem, IonImg, IonLabel, IonBadge, IonButton } from '@ionic/vue'
+import { IonItem, IonImg, IonLabel, IonBadge, IonButton, IonModal } from '@ionic/vue'
+import EditModal from '@/components/molecules/EditModal.vue'
 import { computed, defineComponent, PropType } from 'vue'
-import { BookItem, READING } from '@/repositories/book'
+import { useModal } from '@/composables/use-modal'
+import { BookItem, READING, READ, STOCK } from '@/repositories/book'
 
 export default defineComponent({
   components: {
@@ -51,7 +61,9 @@ export default defineComponent({
     IonImg,
     IonLabel,
     IonBadge,
-    IonButton
+    IonButton,
+    IonModal,
+    EditModal
   },
   props: {
     book: {
@@ -69,21 +81,27 @@ export default defineComponent({
       return props.book.imageLinks?.smallThumbnail ?? '/assets/icon/no-image.png'
     })
 
+    const { isOpenModal, openModal, closeModal } = useModal()
+
     const clickRegistAsReading = () => {
       emit('clickRegistAsReading', props.book)
     }
     const clickRegistAsRead = () => {
-      emit('clickRegistAsRead', props.book)
+      openModal()
     }
     const clickRegistAsStock = () => {
       emit('clickRegistAsStock', props.book)
     }
     return {
       thumbnail,
+      isOpenModal,
+      closeModal,
       clickRegistAsReading,
       clickRegistAsRead,
       clickRegistAsStock,
-      READING
+      READING,
+      READ,
+      STOCK
     }
   }
 })
