@@ -42,9 +42,8 @@
   </ion-item>
   <ion-modal
     :is-open="isOpenModal"
-    @onDidDismiss="closeModal"
   >
-    <edit-modal />
+    <edit-modal @onDismiss="closeModal" />
   </ion-modal>
 </template>
 
