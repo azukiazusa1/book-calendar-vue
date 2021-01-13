@@ -1,6 +1,6 @@
 import 'firebase/functions'
 import firebase from '@/plugins/firebase'
-import { Params, BookRepositoryInterface, Result } from './types'
+import { Params, BookRepositoryInterface, Result, BookItem } from './types'
 
 const functions = firebase.functions()
 functions.useEmulator('localhost', 5001)
@@ -10,5 +10,9 @@ export class BookRepository implements BookRepositoryInterface {
   async find (params: Params) {
     const result = await func(params)
     return result.data.data as Result
+  }
+
+  regist (book: BookItem) {
+    return Promise.resolve(book)
   }
 }

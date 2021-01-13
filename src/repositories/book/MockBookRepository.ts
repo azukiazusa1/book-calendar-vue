@@ -1,4 +1,4 @@
-import { BookRepositoryInterface, Params } from './types'
+import { BookItem, BookRepositoryInterface, Params } from './types'
 import items from './dummyBooks'
 
 export class MockBookRepository implements BookRepositoryInterface {
@@ -8,5 +8,9 @@ export class MockBookRepository implements BookRepositoryInterface {
       totalItems: 581,
       items
     })
+  }
+
+  regist (book: BookItem) {
+    return Promise.resolve(book)
   }
 }
