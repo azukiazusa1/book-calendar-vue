@@ -1,6 +1,7 @@
 import { computed, reactive, toRefs, ref, watch } from 'vue'
 import { Result, Params } from '@/repositories/book'
 import RepositoryFactory, { BOOK } from '@/repositories/RepositoryFactory'
+import debounce from 'lodash.debounce'
 const BookRepository = RepositoryFactory[BOOK]
 
 const params = reactive<Params>({
@@ -18,13 +19,14 @@ export const useSearchBooks = async () => {
   const startIndex = ref(1)
   const isDisabled = ref(false)
 
-  watch(params, async () => {
+  watch(params, debounce(async () => {
     if (!params.q) return
     startIndex.value = 1
     const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
     result.value = r
-  })
-  const r = await BookRepository.find(params)
+  }, 300))
+
+  const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
   result.value = r
 
   const nextPage = async (e: any) => {
