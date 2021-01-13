@@ -56,15 +56,18 @@ export interface Result {
 }
 
 /**
- * おすすめ順
+ * 並び順：おすすめ順
  */
 export const RELEVANCE = 'relevance'
 
 /**
- * 発売日順
+ * 並び順：発売日順
  */
 export const NEWEST = 'newest'
 
+/**
+ * 並び順
+ */
 export type OrderBy = typeof RELEVANCE | typeof NEWEST
 
 /**
@@ -96,4 +99,5 @@ export interface Params {
 
 export interface BookRepositoryInterface {
   find(params: Params): Promise<Result>;
+  regist(Book: BookItem): Promise<BookItem>;
 }
