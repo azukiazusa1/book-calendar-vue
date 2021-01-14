@@ -31,8 +31,8 @@ export default defineComponent({
     IonList,
     IonItem
   },
-  emits: [
-    'onDismiss'
-  ]
+  emits: {
+    onDismiss: () => true
+  }
 })
 </script>
