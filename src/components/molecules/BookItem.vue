@@ -43,7 +43,7 @@
   <ion-modal
     :is-open="isOpenModal"
   >
-    <edit-modal @onDismiss="closeModal" />
+    <edit-modal :book="book" @on-dismiss="closeModal" />
   </ion-modal>
 </template>
 
