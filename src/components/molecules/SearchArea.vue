@@ -2,12 +2,9 @@
   <ion-searchbar
     animated
     placeholder="題名・著者・ISBN"
-    :value="q"
-    @input="$emit('update:q', $event.target.value)"
+    v-model="_q"
   />
-  <ion-segment :value="orderBy"
-    @ionChange="$emit('update:orderBy',($event.detail.value))"
-  >
+  <ion-segment v-model="_orderBy">
     <ion-segment-button :value="RELEVANCE">
       <ion-label>関連度順</ion-label>
     </ion-segment-button>
@@ -21,6 +18,7 @@
 import { defineComponent, PropType } from 'vue'
 import { IonSearchbar, IonSegment, IonSegmentButton, IonLabel } from '@ionic/vue'
 import { RELEVANCE, NEWEST, OrderBy } from '@/repositories/book'
+import { useVModel } from 'vue-composable'
 
 export default defineComponent({
   components: {
@@ -39,8 +37,12 @@ export default defineComponent({
       required: true
     }
   },
-  setup () {
+  setup (props) {
+    const _q = useVModel(props, 'q')
+    const _orderBy = useVModel(props, 'orderBy')
     return {
+      _q,
+      _orderBy,
       RELEVANCE,
       NEWEST
     }
