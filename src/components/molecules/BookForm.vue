@@ -75,7 +75,12 @@ export default defineComponent({
       default: ''
     }
   },
-  setup (props) {
+  emits: {
+    onSubmit: (data: Data) => {
+      return data.startDate && data.endDate
+    }
+  },
+  setup (props, { emit }) {
     const { formatString } = useIntlDateTimeFormat('ja')
 
     const data = reactive<Data>({
@@ -85,7 +90,7 @@ export default defineComponent({
     })
 
     const onSubmit = () => {
-      console.log(data)
+      emit('onSubmit', data)
     }
 
     return {
