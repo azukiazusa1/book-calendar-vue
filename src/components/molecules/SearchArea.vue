@@ -2,9 +2,9 @@
   <ion-searchbar
     animated
     placeholder="題名・著者・ISBN"
-    v-model="_q"
+    v-model="myQ"
   />
-  <ion-segment v-model="_orderBy">
+  <ion-segment v-model="myOrderBy">
     <ion-segment-button :value="RELEVANCE">
       <ion-label>関連度順</ion-label>
     </ion-segment-button>
@@ -38,11 +38,11 @@ export default defineComponent({
     }
   },
   setup (props) {
-    const _q = useVModel(props, 'q')
-    const _orderBy = useVModel(props, 'orderBy')
+    const myQ = useVModel(props, 'q')
+    const myOrderBy = useVModel(props, 'orderBy')
     return {
-      _q,
-      _orderBy,
+      myQ,
+      myOrderBy,
       RELEVANCE,
       NEWEST
     }
