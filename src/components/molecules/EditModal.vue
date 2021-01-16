@@ -37,8 +37,8 @@ export default defineComponent({
   },
   setup (_, { emit }) {
     const onSubmit = (data: BookPayload) => {
-      console.log(data)
       emit('onSubmit', data)
+      emit('onDismiss')
     }
 
     return {
