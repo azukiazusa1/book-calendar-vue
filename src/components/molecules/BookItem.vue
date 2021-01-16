@@ -1,13 +1,13 @@
 <template>
   <ion-item class="ion-padding-vertical">
-      <ion-img
-        slot="start"
-        class="tuhmbnail"
-        :src="thumbnail"
-      />
+    <ion-img
+      slot="start"
+      class="tuhmbnail"
+      :src="thumbnail"
+    />
     <ion-label>
       <h2>{{ book.title }}</h2>
-      <h3 v-if="book.auhtors">{{ book.auhtors[0] }}</h3>
+      <h3 v-if="book.auhtors">{{ book.auhtors.join(',') }}</h3>
       <p>{{ book.description }}</p>
       <ion-badge v-if="book.status === READING" class="ion-margin-top">読書中!</ion-badge>
       <ion-badge v-if="book.status === READ" class="ion-margin-top">読了済!</ion-badge>
