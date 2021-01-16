@@ -1,4 +1,4 @@
-import { BookItem } from '@/repositories/book'
+import { BookItem, BookPayload } from '@/repositories/book'
 import { DeepReadonly } from 'vue'
 
 export interface BookState {
@@ -8,6 +8,6 @@ export interface BookState {
 export interface BookStore {
   state: DeepReadonly<BookState>;
   registAsReading: (book: BookItem) => Promise<void>;
-  registAsRead: (book: BookItem, startDate: Date, endDate: Date) => Promise<void>;
+  registAsRead: (book: BookItem, payload: BookPayload) => Promise<void>;
   registAsStock: (book: BookItem) => Promise<void>;
 }

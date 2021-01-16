@@ -1,14 +1,19 @@
 <template>
-  <modal-header @click="$emit('onDismiss')">読んだ本として登録<modal-header>
+  <modal-header @click="$emit('onDismiss')">読んだ本として登録</modal-header>
   <ion-content fullscreen>
-    <book-form :title="book.title" />
+    <book-form :title="book.title"
+      :start-date="book.startDate"
+      :end-date="book.endDate"
+      :comment="book.comment"
+      @on-submit="onSubmit"
+    />
   </ion-content>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { IonContent } from '@ionic/vue'
-import { BookItem } from '@/repositories/book'
+import { BookItem, BookPayload } from '@/repositories/book'
 import ModalHeader from '@/components/molecules/ModalHeader.vue'
 import BookForm from '@/components/molecules/BookForm.vue'
 
@@ -25,7 +30,20 @@ export default defineComponent({
     }
   },
   emits: {
-    onDismiss: () => true
+    onDismiss: () => true,
+    onSubmit: (data: BookPayload) => {
+      return data.startDate && data.endDate
+    }
+  },
+  setup (_, { emit }) {
+    const onSubmit = (data: BookPayload) => {
+      console.log(data)
+      emit('onSubmit', data)
+    }
+
+    return {
+      onSubmit
+    }
   }
 })
 </script>

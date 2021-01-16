@@ -1,5 +1,5 @@
 import { setStatusAsRead, setStatusAsReading, setStatusAsStock } from '@/composables/use-bookStatus'
-import { BookItem } from '@/repositories/book'
+import { BookItem, BookPayload } from '@/repositories/book'
 import RepositoryFactory, { BOOK } from '@/repositories/RepositoryFactory'
 import { reactive, readonly, InjectionKey, inject } from 'vue'
 import { BookState, BookStore } from './types'
@@ -26,11 +26,10 @@ const registAsReading = async (book: BookItem) => {
  *
  * @param book
  */
-const registAsRead = async (book: BookItem, startDate: Date, endDate: Date) => {
+const registAsRead = async (book: BookItem, payload: BookPayload) => {
   const readBook = setStatusAsRead(book)
-  readBook.startDate = startDate
-  readBook.endDate = endDate
-  const data = await BookRepository.regist(readBook)
+  console.log({ ...readBook, ...payload })
+  const data = await BookRepository.regist({ ...readBook, ...payload })
   state.books.push(data)
 }
 

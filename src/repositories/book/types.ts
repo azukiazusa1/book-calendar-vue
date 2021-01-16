@@ -28,6 +28,7 @@ export type Status = typeof UNREAD | typeof READING | typeof READ | typeof STOCK
  */
 export interface BookItem {
   id: string;
+  docId?: string;
   price?: number;
   auhtors?: string[];
   categories?: string[];
@@ -42,6 +43,7 @@ export interface BookItem {
   status: Status;
   startDate?: Date | string;
   endDate?: Date | string;
+  comment?: string;
 }
 
 export interface ImageLinks {
@@ -53,6 +55,12 @@ export interface Result {
   items: BookItem[];
   kind: string;
   totalItems: number;
+}
+
+export type BookPayload = {
+  startDate: Date | string;
+  endDate: Date | string;
+  comment: string;
 }
 
 /**

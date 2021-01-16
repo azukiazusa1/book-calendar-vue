@@ -37,12 +37,7 @@
 import { defineComponent, reactive } from 'vue'
 import { IonButton, IonList, IonListHeader, IonItem, IonLabel, IonDatetime, IonTextarea } from '@ionic/vue'
 import { useIntlDateTimeFormat } from 'vue-composable'
-
-type Data = {
-  startDate: string;
-  endDate: string;
-  comment: string;
-}
+import { BookPayload } from '@/repositories/book'
 
 export default defineComponent({
   components: {
@@ -76,21 +71,25 @@ export default defineComponent({
     }
   },
   emits: {
-    onSubmit: (data: Data) => {
+    onSubmit: (data: BookPayload) => {
       return data.startDate && data.endDate
     }
   },
   setup (props, { emit }) {
     const { formatString } = useIntlDateTimeFormat('ja')
 
-    const data = reactive<Data>({
+    const data = reactive<BookPayload>({
       startDate: formatString(props.startDate),
       endDate: formatString(props.endDate),
       comment: props.comment
     })
 
     const onSubmit = () => {
-      emit('onSubmit', data)
+      emit('onSubmit', {
+        startDate: new Date(data.startDate),
+        endDate: new Date(data.endDate),
+        comment: data.comment
+      })
     }
 
     return {

@@ -8,9 +8,9 @@
       v-for="book in result.items"
       :key="book.id"
       :book="book"
-      @clickRegistAsReading="registAsReading"
-      @clickRegistAsRead="registAsRead"
-      @clickRegistAsStock="registAsStock"
+      @RegistAsReading="registAsReading"
+      @RegistAsRead="registAsRead"
+      @RegistAsStock="registAsStock"
     />
      <ion-infinite-scroll
         @ionInfinite="nextPage($event)"
