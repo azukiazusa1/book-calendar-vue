@@ -31,13 +31,13 @@ export default defineComponent({
   },
   emits: {
     onDismiss: () => true,
-    onSubmit: (data: BookPayload) => {
-      return data.startDate && data.endDate
+    onSubmit: (book: BookItem, payload: BookPayload) => {
+      return book && payload
     }
   },
-  setup (_, { emit }) {
-    const onSubmit = (data: BookPayload) => {
-      emit('onSubmit', data)
+  setup (props, { emit }) {
+    const onSubmit = (payload: BookPayload) => {
+      emit('onSubmit', props.book, payload)
       emit('onDismiss')
     }
 

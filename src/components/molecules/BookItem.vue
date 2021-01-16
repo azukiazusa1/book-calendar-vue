@@ -92,8 +92,8 @@ export default defineComponent({
       emit('registAsStock', props.book)
     }
 
-    const onSubmit = (payload: BookPayload) => {
-      emit('registAsRead', props.book, payload)
+    const onSubmit = (book: BookItem, payload: BookPayload) => {
+      emit('registAsRead', book, payload)
     }
     return {
       thumbnail,
