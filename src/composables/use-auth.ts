@@ -30,3 +30,11 @@ export const auth = () => {
     })
   })
 }
+
+export const useAuth = () => {
+  return {
+    signInWithGoogle,
+    logout,
+    auth
+  }
+}

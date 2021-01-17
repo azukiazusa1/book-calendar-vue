@@ -6,7 +6,7 @@ export const UNREAD = 'unread'
 /**
  * 読書中
  */
-export const READING = 'rading'
+export const READING = 'reading'
 
 /**
  * 読了
@@ -28,6 +28,7 @@ export type Status = typeof UNREAD | typeof READING | typeof READ | typeof STOCK
  */
 export interface BookItem {
   id: string;
+  docId?: string;
   price?: number;
   auhtors?: string[];
   categories?: string[];
@@ -42,6 +43,7 @@ export interface BookItem {
   status: Status;
   startDate?: Date | string;
   endDate?: Date | string;
+  comment?: string;
 }
 
 export interface ImageLinks {
@@ -55,7 +57,45 @@ export interface Result {
   totalItems: number;
 }
 
-export type OrderBy = 'relevance' | 'newest'
+export type BookPayload = {
+  startDate: Date | string;
+  endDate: Date | string;
+  comment: string;
+}
+
+/**
+ * 並び順：おすすめ順
+ */
+export const RELEVANCE = 'relevance'
+
+/**
+ * 並び順：発売日順
+ */
+export const NEWEST = 'newest'
+
+/**
+ * 並び順
+ */
+export type OrderBy = typeof RELEVANCE | typeof NEWEST
+
+/**
+ * 取得タイプ：すべて
+ */
+export const ALL = 'all'
+
+/**
+ * 取得タイプ：本
+ */
+export const BOOKS = 'books'
+
+/**
+ * 取得タイプ：雑誌
+ */
+export const magazines = 'magazines'
+
+/**
+ * 取得タイプ
+ */
 export type PrintType = 'all' | 'books' | 'magazines'
 
 export interface Params {
@@ -67,4 +107,5 @@ export interface Params {
 
 export interface BookRepositoryInterface {
   find(params: Params): Promise<Result>;
+  regist(Book: BookItem): Promise<BookItem>;
 }
