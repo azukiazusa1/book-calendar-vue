@@ -1,9 +1,26 @@
+import { computed } from 'vue'
 import { useLocalStorage } from 'vue-composable'
 
-import { getPlatforms } from '@ionic/vue'
-
 export const useStorage = (key: string) => {
-  console.log(getPlatforms())
+  const { storage } = useLocalStorage(key)
 
-  return useLocalStorage(key)
+  const get = (): string[] => {
+    try {
+      return JSON.parse(storage.value)
+    } catch (e) {
+      return []
+    }
+  }
+
+  const set = (value: string) => {
+    const oldValues = get()
+    const newValues = [...oldValues, value]
+    storage.value = JSON.stringify(new Set(newValues))
+  }
+
+  return {
+    storage,
+    get,
+    set
+  }
 }
