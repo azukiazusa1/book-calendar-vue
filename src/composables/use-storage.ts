@@ -25,12 +25,18 @@ export const useStorage = () => {
     storage.value = newValues
   }
 
+  const clear = () => {
+    localStorage.setItem(KEY, '[]')
+    storage.value = []
+  }
+
   storage.value = get()
 
   return {
     get,
     set,
     remove,
+    clear,
     storage: readonly(storage)
   }
 }
