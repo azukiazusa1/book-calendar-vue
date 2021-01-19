@@ -19,11 +19,18 @@ export const useStorage = () => {
     storage.value = newValues
   }
 
+  const remove = (value: string) => {
+    const newValues = get().filter(v => v !== value)
+    localStorage.setItem(KEY, JSON.stringify(newValues))
+    storage.value = newValues
+  }
+
   storage.value = get()
 
   return {
     get,
     set,
+    remove,
     storage: readonly(storage)
   }
 }
