@@ -1,23 +1,21 @@
-import { useLocalStorage } from 'vue-composable'
+const KEY = 'search-word'
 
-const { storage } = useLocalStorage('search-word')
 export const useStorage = () => {
-  const get = (): string[] => {
+  const get = () => {
     try {
-      return JSON.parse(storage.value)
+      const storage = localStorage.getItem(KEY) ?? '[]'
+      return JSON.parse(storage) as string[]
     } catch (e) {
       return []
     }
   }
 
   const set = (value: string) => {
-    const oldValues = get()
-    const newValues = [...oldValues, value]
-    storage.value = JSON.stringify([...new Set(newValues)])
+    const newValues = [...get(), value]
+    localStorage.setItem(KEY, JSON.stringify(newValues))
   }
 
   return {
-    storage,
     get,
     set
   }
