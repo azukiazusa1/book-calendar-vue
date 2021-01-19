@@ -1,10 +1,13 @@
+import { ref, readonly } from 'vue'
+
 const KEY = 'search-word'
+const storage = ref<string[]>([])
 
 export const useStorage = () => {
   const get = () => {
     try {
-      const storage = localStorage.getItem(KEY) ?? '[]'
-      return JSON.parse(storage) as string[]
+      const value = localStorage.getItem(KEY) ?? '[]'
+      return JSON.parse(value) as string[]
     } catch (e) {
       return []
     }
@@ -13,10 +16,14 @@ export const useStorage = () => {
   const set = (value: string) => {
     const newValues = [...get(), value]
     localStorage.setItem(KEY, JSON.stringify(newValues))
+    storage.value = newValues
   }
+
+  storage.value = get()
 
   return {
     get,
-    set
+    set,
+    storage: readonly(storage)
   }
 }
