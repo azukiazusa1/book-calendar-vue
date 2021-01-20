@@ -14,7 +14,7 @@ export default defineComponent({
     IonList,
     SearchHistoryWord
   },
-  porps: {
+  props: {
     searchWords: {
       type: Array,
       required: true
