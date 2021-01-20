@@ -1,12 +1,17 @@
 <template>
   <ion-list>
-    <search-history-word v-for="(word, i) in searchWords" :key="i" :word="word" />
+    <search-history-word
+      v-for="(word, i) in searchWords"
+      :key="i"
+      :word="word"
+      @click="onClick(word)" />
   </ion-list>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { IonList } from '@ionic/vue'
+import { isString } from 'vue-composable'
 import SearchHistoryWord from '@/components/atoms/SearchHistoryWord.vue'
 
 export default defineComponent({
@@ -16,8 +21,23 @@ export default defineComponent({
   },
   props: {
     searchWords: {
-      type: Array,
+      type: Array as PropType<string[]>,
       required: true
+    }
+  },
+  emits: {
+    clieckSearchWord: (word: string) => {
+      return isString(word)
+    }
+  },
+  setup (_, { emit }) {
+    const onClick = (word: string) => {
+      console.log(word)
+      emit('clieckSearchWord', word)
+    }
+
+    return {
+      onClick
     }
   }
 })

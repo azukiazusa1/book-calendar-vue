@@ -14,6 +14,7 @@
           <skelton-list />
         </template>
       </Suspense>
+      <search-history v-else :search-words="storage" @clieckSearchWord="setQ" />
     </ion-content>
   </ion-page>
 </template>
@@ -24,10 +25,12 @@ import AsyncBookList from '@/components/organism/AsyncBookList.vue'
 import SearchArea from '@/components/molecules/SearchArea.vue'
 import ErrorToast from '@/components/atoms/ErrorToast.vue'
 import SkeltonList from '@/components/molecules/SkeltonList.vue'
+import SearchHistory from '@/components/molecules/SearchHistory.vue'
 import { useTitle } from 'vue-composable'
 import { APP_TITLE } from '@/constant'
 import { defineComponent, ref, onErrorCaptured } from 'vue'
-import { q, orderBy } from '@/composables/use-searchBooks'
+import { q, orderBy, setQ } from '@/composables/use-searchBooks'
+import { useStorage } from '@/composables/use-storage'
 
 export default defineComponent({
   components: {
@@ -36,11 +39,13 @@ export default defineComponent({
     SearchArea,
     ErrorToast,
     AsyncBookList,
-    SkeltonList
+    SkeltonList,
+    SearchHistory
   },
   setup () {
     const title = useTitle()
     title.value = `本を探す | ${APP_TITLE}`
+    const { storage } = useStorage()
 
     const err = ref<boolean>(false)
 
@@ -52,7 +57,9 @@ export default defineComponent({
     return {
       q,
       orderBy,
-      err
+      setQ,
+      err,
+      storage
     }
   }
 })
