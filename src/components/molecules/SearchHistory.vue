@@ -1,7 +1,7 @@
 <template>
   <ion-list-header>
     <ion-label>最近の検索</ion-label>
-    <ion-button>
+    <ion-button @click="onClickClear">
       消去
     </ion-button>
   </ion-list-header>
@@ -37,16 +37,23 @@ export default defineComponent({
   emits: {
     clieckSearchWord: (word: string) => {
       return isString(word)
-    }
+    },
+    onClickClear: () => true
   },
   setup (_, { emit }) {
     const onClick = (word: string) => {
-      console.log('onClickWord', word)
+      console.log('emit:onClickWord', word)
       emit('clieckSearchWord', word)
     }
 
+    const onClickClear = () => {
+      console.log('emit:onClickClear')
+      emit('onClickClear')
+    }
+
     return {
-      onClick
+      onClick,
+      onClickClear
     }
   }
 })
