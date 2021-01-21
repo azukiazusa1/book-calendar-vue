@@ -1,4 +1,10 @@
 <template>
+  <ion-list-header>
+    <ion-label>最近の検索</ion-label>
+    <ion-button>
+      消去
+    </ion-button>
+  </ion-list-header>
   <ion-list>
     <search-history-word
       v-for="(word, i) in searchWords"
@@ -10,12 +16,15 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { IonList } from '@ionic/vue'
+import { IonListHeader, IonLabel, IonButton, IonList } from '@ionic/vue'
 import { isString } from 'vue-composable'
 import SearchHistoryWord from '@/components/atoms/SearchHistoryWord.vue'
 
 export default defineComponent({
   components: {
+    IonListHeader,
+    IonLabel,
+    IonButton,
     IonList,
     SearchHistoryWord
   },
@@ -32,7 +41,7 @@ export default defineComponent({
   },
   setup (_, { emit }) {
     const onClick = (word: string) => {
-      console.log(word)
+      console.log('onClickWord', word)
       emit('clieckSearchWord', word)
     }
 
