@@ -14,7 +14,12 @@
           <skelton-list />
         </template>
       </Suspense>
-      <search-history v-else :search-words="storage" @clieckSearchWord="setQ" />
+      <search-history
+        v-else
+        :search-words="storage"
+        @clickSearchWord="setQ"
+        @clickClear="clear"
+      />
     </ion-content>
   </ion-page>
 </template>
@@ -45,7 +50,7 @@ export default defineComponent({
   setup () {
     const title = useTitle()
     title.value = `本を探す | ${APP_TITLE}`
-    const { storage } = useStorage()
+    const { storage, clear } = useStorage()
 
     const err = ref<boolean>(false)
 
@@ -59,7 +64,8 @@ export default defineComponent({
       orderBy,
       setQ,
       err,
-      storage
+      storage,
+      clear
     }
   }
 })

@@ -35,20 +35,20 @@ export default defineComponent({
     }
   },
   emits: {
-    clieckSearchWord: (word: string) => {
+    clickSearchWord: (word: string) => {
       return isString(word)
     },
-    onClickClear: () => true
+    clickClear: () => true
   },
   setup (_, { emit }) {
     const onClick = (word: string) => {
-      console.log('emit:onClickWord', word)
-      emit('clieckSearchWord', word)
+      console.log('emit:clickSearchWord', word)
+      emit('clickSearchWord', word)
     }
 
     const onClickClear = () => {
-      console.log('emit:onClickClear')
-      emit('onClickClear')
+      console.log('emit:clickClear')
+      emit('clickClear')
     }
 
     return {
