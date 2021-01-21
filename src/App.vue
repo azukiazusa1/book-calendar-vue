@@ -1,7 +1,6 @@
 <template>
   <ion-app>
     <the-menu />
-    <the-header />
     <ion-content>
       <ion-router-outlet />
     </ion-content>
@@ -10,7 +9,6 @@
 
 <script lang="ts">
 import { IonApp, IonRouterOutlet, IonContent } from '@ionic/vue'
-import TheHeader from '@/components/organism/TheHeader.vue'
 import { defineComponent, provide } from 'vue'
 import { userStore, userKey } from '@/store/user'
 import { bookStore, bookKey } from '@/store/book'
@@ -21,7 +19,6 @@ export default defineComponent({
   components: {
     IonApp,
     IonRouterOutlet,
-    TheHeader,
     IonContent,
     TheMenu
   },

@@ -1,10 +1,10 @@
 <template>
   <ion-page>
+    <search-area
+      v-model:q="q"
+      v-model:orderBy="orderBy"
+    />
     <ion-content>
-      <search-area
-        v-model:q="q"
-        v-model:orderBy="orderBy"
-      />
       <error-toast :is-open="err" />
       <Suspense v-if="q">
         <template #default>
