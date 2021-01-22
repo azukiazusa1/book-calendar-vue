@@ -25,7 +25,7 @@
 import { defineComponent, PropType } from 'vue'
 import { IonHeader, IonToolbar, IonSearchbar, IonSegment, IonSegmentButton, IonLabel } from '@ionic/vue'
 import { RELEVANCE, NEWEST, OrderBy } from '@/repositories/book'
-import { useVModel } from 'vue-composable'
+import { isString, useVModel } from 'vue-composable'
 
 export default defineComponent({
   components: {
@@ -47,6 +47,10 @@ export default defineComponent({
     }
   },
   emits: {
+    'update:q': (q: string) => isString(q),
+    'update:orderBy': (orderBy: OrderBy) => {
+      return orderBy === 'relevance' || orderBy === 'newest'
+    },
     finishInput: (value: string) => !!value
   },
   setup (props, { emit }) {
