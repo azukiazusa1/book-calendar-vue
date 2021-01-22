@@ -1,7 +1,7 @@
 import { useStorage } from '@/composables/use-storage'
 
 describe('@/composables/use-storage', () => {
-  const { storage, get, set, remove, clear } = useStorage()
+  const { storage, get, set, remove, clear, KEY } = useStorage()
 
   beforeEach(() => {
     clear()
@@ -16,6 +16,11 @@ describe('@/composables/use-storage', () => {
       set('word1')
       set('word2')
       expect(get()).toEqual(['word2', 'word1'])
+    })
+
+    test('ローカルストレージに不正な値が入っていた場合、空の配列を取得する', () => {
+      localStorage.setItem(KEY, 'illegal value')
+      expect(get()).toEqual([])
     })
   })
 

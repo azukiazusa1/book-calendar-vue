@@ -55,6 +55,7 @@ export const useStorage = () => {
   storage.value = get()
 
   return {
+    KEY,
     get,
     set,
     remove,
