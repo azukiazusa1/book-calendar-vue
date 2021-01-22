@@ -3,6 +3,7 @@
     <search-area
       v-model:q="q"
       v-model:orderBy="orderBy"
+      @finishInput="set"
     />
     <ion-content>
       <error-toast :is-open="err" />
@@ -50,7 +51,7 @@ export default defineComponent({
   setup () {
     const title = useTitle()
     title.value = `本を探す | ${APP_TITLE}`
-    const { storage, clear } = useStorage()
+    const { storage, set, clear } = useStorage()
 
     const err = ref<boolean>(false)
 
@@ -65,6 +66,7 @@ export default defineComponent({
       setQ,
       err,
       storage,
+      set,
       clear
     }
   }

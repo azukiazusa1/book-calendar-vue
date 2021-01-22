@@ -5,6 +5,7 @@
         animated
         placeholder="題名・著者・ISBN"
         v-model="myQ"
+        @ionBlur="onBlur"
       />
     </ion-toolbar>
     <ion-toolbar>
@@ -45,12 +46,22 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props) {
+  emits: {
+    finishInput: (value: string) => !!value
+  },
+  setup (props, { emit }) {
     const myQ = useVModel(props, 'q')
     const myOrderBy = useVModel(props, 'orderBy')
+
+    const onBlur = (e: { target: HTMLInputElement}) => {
+      console.log('onBlur searchbar', e.target.value)
+      if (!e.target.value) return
+      emit('finishInput', e.target.value)
+    }
     return {
       myQ,
       myOrderBy,
+      onBlur,
       RELEVANCE,
       NEWEST
     }

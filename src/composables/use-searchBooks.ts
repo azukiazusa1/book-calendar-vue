@@ -2,9 +2,8 @@ import { computed, reactive, toRefs, ref, watch } from 'vue'
 import { Result, Params, RELEVANCE } from '@/repositories/book'
 import RepositoryFactory, { BOOK } from '@/repositories/RepositoryFactory'
 import debounce from 'lodash.debounce'
-import { useStorage } from '@/composables/use-storage'
 const BookRepository = RepositoryFactory[BOOK]
-const { set } = useStorage()
+
 /**
  * 検索パラメータ
  */
@@ -43,7 +42,6 @@ export const useSearchBooks = async () => {
    */
   watch(params, debounce(async () => {
     if (!params.q.trim()) return
-    set(params.q.trim())
     startIndex.value = 1
     const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
     result.value = r
