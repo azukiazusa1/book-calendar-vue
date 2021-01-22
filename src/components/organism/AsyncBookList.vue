@@ -38,10 +38,9 @@ export default defineComponent({
     IonInfiniteScrollContent,
     BookItem
   },
-  async setup () {
+  setup () {
     const { registAsReading, registAsRead, registAsStock } = useBookStore()
-    const { result, empty, nextPage, isDisabled } = await useSearchBooks()
-
+    const { result, empty, nextPage, isDisabled } = useSearchBooks()
     return {
       result,
       empty,

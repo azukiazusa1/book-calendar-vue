@@ -12,11 +12,9 @@ const params = reactive<Params>({
   orderBy: RELEVANCE
 })
 
-export const setQ = (q: string) => {
+const setQ = (q: string) => {
   params.q = q
 }
-
-export const { q, orderBy } = toRefs(params)
 
 /**
  * すべての要素を取得しきったかどうか判定します。
@@ -26,12 +24,13 @@ export const { q, orderBy } = toRefs(params)
  * @param items 取得結果
  * @param limit 1ページあたりの取得数
  */
-export const isFinished = (items: any[], limit = 10) => {
+const isFinished = (items: any[], limit = 10) => {
   return items.length < limit
 }
 
-export const useSearchBooks = async () => {
-  const result = ref<Result | null>(null)
+const result = ref<Result | null>(null)
+
+export const useSearchBooks = () => {
   const startIndex = ref(1)
   const isDisabled = ref(false)
 
@@ -46,9 +45,6 @@ export const useSearchBooks = async () => {
     const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
     result.value = r
   }, 300))
-
-  const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
-  result.value = r
 
   /**
    * 次のページの要素を取得します。
@@ -74,6 +70,9 @@ export const useSearchBooks = async () => {
   })
 
   return {
+    ...toRefs(params),
+    setQ,
+    isFinished,
     result,
     empty,
     nextPage,
