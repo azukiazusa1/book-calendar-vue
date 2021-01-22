@@ -35,10 +35,11 @@ export const useStorage = () => {
    */
   const set = (value: string) => {
     const values = get()
-    if (values.includes(value)) {
-      values.filter(v => v !== value)
+    const index = values.findIndex(v => v === value)
+    if (index !== -1) {
+      values.splice(index, 1)
     }
-    values.push(value)
+    values.unshift(value)
     localStorage.setItem(KEY, JSON.stringify(values))
     storage.value = values
   }
