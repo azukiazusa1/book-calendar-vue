@@ -27,6 +27,7 @@
 <script lang="ts">
 import { IonList, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/vue'
 import BookItem from '@/components/molecules/BookItem.vue'
+import SkeltonList from '@/components/molecules/SkeltonList.vue'
 import { defineComponent } from 'vue'
 import { useSearchBooks } from '@/composables/use-searchBooks'
 import { useBookStore } from '@/store/book'
@@ -36,7 +37,8 @@ export default defineComponent({
     IonList,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
-    BookItem
+    BookItem,
+    SkeltonList
   },
   setup () {
     const { registAsReading, registAsRead, registAsStock } = useBookStore()
