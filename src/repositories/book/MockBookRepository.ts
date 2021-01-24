@@ -7,7 +7,7 @@ export class MockBookRepository implements BookRepositoryInterface {
     await dummyLoading()
     return Promise.resolve({
       kind: 'books#volumes',
-      totalItems: 581,
+      totalItems: items.length,
       items
     })
   }
