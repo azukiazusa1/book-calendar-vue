@@ -42,6 +42,17 @@ describe('@/composables/use-search-book', () => {
       expect(result.value).not.toBeNull()
     })
 
+    test('startIndexの値が変更されてもなにもしない', async () => {
+      // qが空白だとデータを取得してくれないので一旦値を代入する
+      q.value = 'test'
+      await flushPromises()
+      result.value = null
+
+      startIndex.value = 10
+      await flushPromises()
+      expect(result.value).toBeNull()
+    })
+
     test('startIndexの値が1に戻される', async () => {
       startIndex.value = 10
       q.value = 'test'
