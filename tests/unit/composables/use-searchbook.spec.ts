@@ -10,6 +10,8 @@ const initialize = () => {
   startIndex.value = 1
   result.value = null
   loading.value = true
+  q.value = ''
+  orderBy.value = 'relevance'
 }
 
 describe('@/composables/use-search-book', () => {
@@ -17,7 +19,7 @@ describe('@/composables/use-search-book', () => {
     initialize()
   })
   describe('watch params', () => {
-    test('qが変更されるとrepositoryからデータを取得します。', async () => {
+    test('qが変更されるとrepositoryからデータを取得する', async () => {
       q.value = 'test'
       await flushPromises()
       expect(result.value).not.toBeNull()
@@ -27,6 +29,16 @@ describe('@/composables/use-search-book', () => {
       q.value = ' '
       await flushPromises()
       expect(result.value).toBeNull()
+    })
+
+    test('orderByが変更されるとrepositoryからデータを取得する', async () => {
+      q.value = 'test'
+      await flushPromises()
+      result.value = null
+
+      orderBy.value = 'newest'
+      await flushPromises()
+      expect(result.value).not.toBeNull()
     })
   })
 })
