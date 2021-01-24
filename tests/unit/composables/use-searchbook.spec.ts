@@ -1,5 +1,4 @@
 import { useSearchBooks } from '@/composables/use-searchBooks'
-import { start } from '@popperjs/core'
 import flushPromises from 'flush-promises'
 const { startIndex, result, loading, q, orderBy } = useSearchBooks()
 
