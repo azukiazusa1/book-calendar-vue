@@ -15,7 +15,7 @@
     />
      <ion-infinite-scroll
         @ionInfinite="nextPage($event)"
-        :disabled="isDisabled || loading"
+        :disabled="isFinished || loading"
       >
         <ion-infinite-scroll-content
           loading-spinner="bubbles"
@@ -43,13 +43,13 @@ export default defineComponent({
   },
   setup () {
     const { registAsReading, registAsRead, registAsStock } = useBookStore()
-    const { result, empty, nextPage, loading, isDisabled } = useSearchBooks()
+    const { result, empty, nextPage, loading, isFinished } = useSearchBooks()
     return {
       result,
       empty,
       nextPage,
       loading,
-      isDisabled,
+      isFinished,
       registAsReading,
       registAsRead,
       registAsStock

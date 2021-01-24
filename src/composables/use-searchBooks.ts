@@ -16,21 +16,8 @@ const setQ = (q: string) => {
   params.q = q
 }
 
-/**
- * すべての要素を取得しきったかどうか判定します。
- * 取得結果の数 < 1ページあたりの取得数なら、
- * すべての要素を取得しきったと判定します。
- *
- * @param items 取得結果
- * @param limit 1ページあたりの取得数
- */
-const isFinished = (items: any[], limit = 10) => {
-  return items.length < limit
-}
-
 const result = ref<Result | null>(null)
 const startIndex = ref(1)
-const isDisabled = ref(false)
 const loading = ref(true)
 
 export const useSearchBooks = () => {
@@ -61,8 +48,15 @@ export const useSearchBooks = () => {
     } else {
       result.value = r
     }
-    isDisabled.value = isFinished(r.items)
   }
+
+  /**
+ * すべての要素を取得しきったかどうか判定します。
+ */
+  const isFinished = computed(() => {
+    if (!result.value) return false
+    return result.value.totalItems <= result.value.items.length
+  })
 
   /**
    * 取得結果が0件だったかどうか判定します。
@@ -78,7 +72,6 @@ export const useSearchBooks = () => {
     result,
     empty,
     nextPage,
-    loading,
-    isDisabled
+    loading
   }
 }
