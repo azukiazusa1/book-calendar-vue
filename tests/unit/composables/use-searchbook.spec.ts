@@ -59,5 +59,20 @@ describe('@/composables/use-search-book', () => {
       await flushPromises()
       expect(startIndex.value).toEqual(1)
     })
+
+    test('loadingの値がfalseになる', async () => {
+      q.value = 'test'
+      await flushPromises()
+      expect(loading.value).toBeFalsy()
+    })
+  })
+
+  describe('nextPage', () => {
+    test('repositoryからデータを取得して、result.itemの配列に追加される', () => {
+      result.value = {
+        kind: 'value',
+        totalItems: '1'
+      }
+    })
   })
 })
