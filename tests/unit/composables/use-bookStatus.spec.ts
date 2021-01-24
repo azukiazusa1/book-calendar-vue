@@ -1,47 +1,26 @@
 import { useBookStatus } from '@/composables/use-bookStatus'
-import { BookItem, READ, READING, STOCK, UNREAD } from '@/repositories/book'
+import { READ, READING, STOCK } from '@/repositories/book'
+import { createDummyBook } from '@/composables/utils'
 const { setStatusAsRead, setStatusAsReading, setStatusAsStock } = useBookStatus()
-const createBook = () => {
-  return {
-    id: '1',
-    price: 1000,
-    auhtors: ['author1', 'author2'],
-    categories: ['category1', 'category2'],
-    imageLinks: {
-      smallThumbnail: 'https://placehold.jp/150x150.png',
-      thumbnail: 'https://placehold.jp/350x240.png'
-    },
-    pageCount: 300,
-    publishedDate: '2020-01-01',
-    publisher: 'publisher',
-    title: 'title1',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque aliquet risus vel ligula maximus dictum. Vestibulum ultrices mauris nec dolor bibendum auctor. Phasellus rutrum, massa quis mollis ullamcorper, tellus dui malesuada tortor, vel porta leo tellus et erat. Vestibulum luctus vulputate risus, vitae porttitor lorem scelerisque venenatis. Duis nunc purus, mollis quis urna sed, gravida dapibus nisi. In id tortor arcu. Aenean semper erat quis eleifend convallis.',
-    infoLink: 'http://example.com/info',
-    previewLink: 'http://example.com/preview',
-    status: UNREAD,
-    startDate: undefined,
-    endDate: undefined
-  } as BookItem
-}
 
 describe('@/composables/use-bookStatus', () => {
   describe('setStatusAsRead', () => {
     test('本のステータスを読書完了にする', () => {
-      const readBook = setStatusAsRead(createBook())
+      const readBook = setStatusAsRead(createDummyBook())
       expect(readBook.status).toEqual(READ)
     })
   })
 
   describe('setStatusAsReading', () => {
     test('本のステータスを読書中にする', () => {
-      const readingBook = setStatusAsReading(createBook())
+      const readingBook = setStatusAsReading(createDummyBook())
       expect(readingBook.status).toEqual(READING)
     })
   })
 
   describe('setStatusAsStock', () => {
     test('本のステータスをストックにする', () => {
-      const stockBook = setStatusAsStock(createBook())
+      const stockBook = setStatusAsStock(createDummyBook())
       expect(stockBook.status).toEqual(STOCK)
     })
   })
