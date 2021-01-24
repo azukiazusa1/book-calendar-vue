@@ -38,4 +38,11 @@ describe('@/composables/use-bookStatus', () => {
       expect(readingBook.status).toEqual(READING)
     })
   })
+
+  describe('setStatusAsStock', () => {
+    test('本のステータスをストックにする', () => {
+      const stockBook = setStatusAsStock(createBook())
+      expect(stockBook.status).toEqual(STOCK)
+    })
+  })
 })
