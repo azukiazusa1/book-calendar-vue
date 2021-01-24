@@ -32,6 +32,7 @@ describe('@/composables/use-search-book', () => {
     })
 
     test('orderByが変更されるとrepositoryからデータを取得する', async () => {
+      // qが空白だとデータを取得してくれないので一旦値を代入する
       q.value = 'test'
       await flushPromises()
       result.value = null
@@ -39,6 +40,13 @@ describe('@/composables/use-search-book', () => {
       orderBy.value = 'newest'
       await flushPromises()
       expect(result.value).not.toBeNull()
+    })
+
+    test('startIndexの値が1に戻される', async () => {
+      startIndex.value = 10
+      q.value = 'test'
+      await flushPromises()
+      expect(startIndex.value).toEqual(1)
     })
   })
 })
