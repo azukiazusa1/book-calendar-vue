@@ -70,6 +70,7 @@ export const useSearchBooks = () => {
     setQ,
     isFinished,
     result,
+    startIndex,
     empty,
     nextPage,
     loading
