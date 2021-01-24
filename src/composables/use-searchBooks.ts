@@ -29,11 +29,11 @@ const isFinished = (items: any[], limit = 10) => {
 }
 
 const result = ref<Result | null>(null)
+const startIndex = ref(1)
+const isDisabled = ref(false)
+const loading = ref(true)
 
 export const useSearchBooks = () => {
-  const startIndex = ref(1)
-  const isDisabled = ref(false)
-
   /**
    * 検索パラメータに変更があるたびに結果を取得します。
    * キーワードが未入力のときはなにもしません。
@@ -41,9 +41,11 @@ export const useSearchBooks = () => {
    */
   watch(params, debounce(async () => {
     if (!params.q.trim()) return
+    loading.value = true
     startIndex.value = 1
     const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
     result.value = r
+    loading.value = false
   }, 300))
 
   /**
@@ -76,6 +78,7 @@ export const useSearchBooks = () => {
     result,
     empty,
     nextPage,
+    loading,
     isDisabled
   }
 }
