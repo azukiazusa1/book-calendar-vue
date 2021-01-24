@@ -3,7 +3,6 @@ import TheMenu from '@/components/organism/TheMenu.vue'
 import MenuItem from '@/components/atoms/MenuItem.vue'
 import { IonMenu } from '@ionic/vue'
 import { useUserStore } from '@/store/user'
-import { logout } from '@/composables/use-auth'
 import flushPromises from 'flush-promises'
 
 const mockPush = jest.fn()
@@ -39,8 +38,13 @@ const user = {
   }
 })
 
+const mockLogout = jest.fn()
 jest.mock('@/composables/use-auth', () => ({
-  logout: jest.fn()
+  useAuth: () => {
+    return {
+      logout: mockLogout
+    }
+  }
 }))
 
 describe('LoginButtons.vue', () => {
@@ -72,7 +76,7 @@ describe('LoginButtons.vue', () => {
     test('1つ目のメニューをクリックしたらログアウトする', async () => {
       menuItems[0].trigger('click')
       await flushPromises()
-      expect(logout).toHaveBeenCalled()
+      expect(mockLogout).toHaveBeenCalled()
       expect(mockUnset).toHaveBeenCalled()
       expect(mockPush).toHaveBeenCalledWith('/')
     })

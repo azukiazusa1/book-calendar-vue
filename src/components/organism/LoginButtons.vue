@@ -20,7 +20,7 @@ import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import LoginButton from '@/components/molecules/LoginButton.vue'
 import { logoGoogle } from 'ionicons/icons'
-import { signInWithGoogle } from '@/composables/use-auth'
+import { useAuth } from '@/composables/use-auth'
 import { useUserStore } from '@/store/user'
 
 export default defineComponent({
@@ -30,6 +30,7 @@ export default defineComponent({
   setup () {
     const userStore = useUserStore()
     const router = useRouter()
+    const { signInWithGoogle } = useAuth()
 
     const clickGoogle = async () => {
       const user = await signInWithGoogle()

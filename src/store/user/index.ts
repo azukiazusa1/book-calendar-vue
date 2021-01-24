@@ -2,8 +2,9 @@ import { computed, inject, InjectionKey, reactive, readonly } from 'vue'
 import { UserState, UserStore } from '@/store/user/types'
 import { User, UserPayload } from '@/repositories/user'
 import RepositoryFactory, { USER } from '@/repositories/RepositoryFactory'
-import { auth } from '@/composables/use-auth'
+import { useAuth } from '@/composables/use-auth'
 const UserRepository = RepositoryFactory[USER]
+const { auth } = useAuth()
 
 const state = reactive<UserState>({
   user: null

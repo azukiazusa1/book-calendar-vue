@@ -67,12 +67,12 @@ describe('@/composables/use-search-book', () => {
     })
   })
 
-  describe('nextPage', () => {
-    test('repositoryからデータを取得して、result.itemの配列に追加される', () => {
-      result.value = {
-        kind: 'value',
-        totalItems: '1'
-      }
-    })
-  })
+  // describe('nextPage', () => {
+  //   test('repositoryからデータを取得して、result.itemの配列に追加される', () => {
+  //     result.value = {
+  //       kind: 'value',
+  //       totalItems: '1'
+  //     }
+  //   })
+  // })
 })

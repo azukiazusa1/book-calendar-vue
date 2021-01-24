@@ -21,7 +21,7 @@ import { IonMenu, IonContent, IonList } from '@ionic/vue'
 import MenuItem from '@/components/atoms/MenuItem.vue'
 import MenuHeader from '@/components/molecules/MenuHeader.vue'
 import { useUserStore } from '@/store/user'
-import { logout } from '@/composables/use-auth'
+import { useAuth } from '@/composables/use-auth'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
@@ -35,6 +35,7 @@ export default defineComponent({
   setup () {
     const userStore = useUserStore()
     const router = useRouter()
+    const { logout } = useAuth()
 
     const clickLogout = async () => {
       console.log('logout')
