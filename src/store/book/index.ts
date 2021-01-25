@@ -1,7 +1,7 @@
 import { useBookStatus } from '@/composables/use-bookStatus'
 import { BookItem, BookPayload } from '@/repositories/book'
 import RepositoryFactory, { BOOK } from '@/repositories/RepositoryFactory'
-import { reactive, readonly } from 'vue'
+import { computed, reactive, readonly } from 'vue'
 import { BookState } from './types'
 const BookRepository = RepositoryFactory[BOOK]
 const { setStatusAsRead, setStatusAsReading, setStatusAsStock } = useBookStatus()
@@ -10,6 +10,10 @@ const state = reactive<BookState>({
   books: []
 })
 
+/**
+ * idから特定の本を取得します。
+ * @param id
+ */
 const getBook = (id: string) => {
   const book = state.books.find(book => book.id === id)
   if (!book) {
@@ -17,6 +21,12 @@ const getBook = (id: string) => {
   }
   return book
 }
+
+/**
+ * bookの数
+ *
+ */
+const bookCount = computed(() => state.books.length)
 
 /**
  * 現在のbooksを新しいもので置き換えます。
@@ -72,6 +82,8 @@ const registAsStock = async (id: string) => {
 export const useBookStore = () => {
   return {
     state: readonly(state),
+    getBook,
+    bookCount,
     setBooks,
     addBooks,
     registAsReading,

@@ -4,7 +4,7 @@ import RepositoryFactory, { BOOK } from '@/repositories/RepositoryFactory'
 import { useBookStore } from '@/store/book'
 import debounce from 'lodash.debounce'
 const BookRepository = RepositoryFactory[BOOK]
-const { state, setBooks, addBooks } = useBookStore()
+const { bookCount, setBooks, addBooks } = useBookStore()
 
 /**
  * 検索パラメータ
@@ -54,7 +54,7 @@ export const useSearchBooks = () => {
  */
   const isFinished = computed(() => {
     if (!result.value) return false
-    return result.value.totalItems <= state.books.length
+    return result.value.totalItems <= bookCount.value
   })
 
   /**
