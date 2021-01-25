@@ -29,9 +29,10 @@
 import { IonList, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/vue'
 import BookItem from '@/components/molecules/BookItem.vue'
 import SkeltonList from '@/components/molecules/SkeltonList.vue'
-import { defineComponent } from 'vue'
+import { defineComponent, toRefs } from 'vue'
 import { useSearchBooks } from '@/composables/use-searchBooks'
 import { useBookStore } from '@/store/book'
+import { useSearchStatus } from '@/composables/use-searchStatus'
 
 export default defineComponent({
   components: {
@@ -43,7 +44,9 @@ export default defineComponent({
   },
   setup () {
     const { state, registAsReading, registAsRead, registAsStock } = useBookStore()
-    const { result, empty, nextPage, loading, isFinished } = useSearchBooks()
+    const { result, nextPage, loading } = useSearchBooks()
+    const { books } = toRefs(state)
+    const { empty, isFinished } = useSearchStatus(result, books)
     return {
       state,
       result,
