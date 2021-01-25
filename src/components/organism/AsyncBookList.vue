@@ -6,7 +6,7 @@
     </div>
     <book-item
       v-else
-      v-for="book in result.items"
+      v-for="book in state.books"
       :key="book.id"
       :book="book"
       @RegistAsReading="registAsReading"
@@ -42,9 +42,10 @@ export default defineComponent({
     SkeltonList
   },
   setup () {
-    const { registAsReading, registAsRead, registAsStock } = useBookStore()
+    const { state, registAsReading, registAsRead, registAsStock } = useBookStore()
     const { result, empty, nextPage, loading, isFinished } = useSearchBooks()
     return {
+      state,
       result,
       empty,
       nextPage,

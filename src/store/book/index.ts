@@ -1,14 +1,22 @@
 import { useBookStatus } from '@/composables/use-bookStatus'
 import { BookItem, BookPayload } from '@/repositories/book'
 import RepositoryFactory, { BOOK } from '@/repositories/RepositoryFactory'
-import { reactive, readonly, InjectionKey, inject } from 'vue'
-import { BookState, BookStore } from './types'
+import { reactive, readonly } from 'vue'
+import { BookState } from './types'
 const BookRepository = RepositoryFactory[BOOK]
 const { setStatusAsRead, setStatusAsReading, setStatusAsStock } = useBookStatus()
 
 const state = reactive<BookState>({
   books: []
 })
+
+const getBook = (id: string) => {
+  const book = state.books.find(book => book.id === id)
+  if (!book) {
+    throw new Error(`book id: ${id} is not found`)
+  }
+  return book
+}
 
 /**
  * 現在のbooksを新しいもので置き換えます。
@@ -31,7 +39,8 @@ const addBooks = (books: BookItem[] | BookItem) => {
  *
  * @param book
  */
-const registAsReading = async (book: BookItem) => {
+const registAsReading = async (id: string) => {
+  const book = getBook(id)
   const readingBook = setStatusAsReading(book)
   readingBook.startDate = new Date()
   await BookRepository.regist(readingBook)
@@ -42,7 +51,8 @@ const registAsReading = async (book: BookItem) => {
  *
  * @param book
  */
-const registAsRead = async (book: BookItem, payload: BookPayload) => {
+const registAsRead = async (id: string, payload: BookPayload) => {
+  const book = getBook(id)
   const readBook = setStatusAsRead(book)
   console.log({ ...readBook, ...payload })
   await BookRepository.regist({ ...readBook, ...payload })
@@ -53,25 +63,19 @@ const registAsRead = async (book: BookItem, payload: BookPayload) => {
  *
  * @param book
  */
-const registAsStock = async (book: BookItem) => {
+const registAsStock = async (id: string) => {
+  const book = getBook(id)
   const stockBook = setStatusAsStock(book)
   await BookRepository.regist(stockBook)
 }
 
-export const bookStore = {
-  state: readonly(state),
-  setBooks,
-  addBooks,
-  registAsReading,
-  registAsRead,
-  registAsStock
-}
-
-export const bookKey: InjectionKey<BookStore> = Symbol('book')
-
-/**
- * userStoreを返します。
- */
 export const useBookStore = () => {
-  return inject(bookKey, bookStore)
+  return {
+    state: readonly(state),
+    setBooks,
+    addBooks,
+    registAsReading,
+    registAsRead,
+    registAsStock
+  }
 }

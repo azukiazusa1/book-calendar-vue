@@ -73,11 +73,17 @@ export default defineComponent({
       required: true
     }
   },
-  emits: [
-    'registAsReading',
-    'registAsRead',
-    'registAsStock'
-  ],
+  emits: {
+    registAsReading: (id: string) => {
+      return !!id
+    },
+    registAsStock: (id: string) => {
+      return !!id
+    },
+    registAsRead: (id: string, payload: BookPayload) => {
+      return !!(id && payload.startDate && payload.endDate)
+    }
+  },
   setup (props, { emit }) {
     const thumbnail = computed(() => {
       return props.book.imageLinks?.smallThumbnail ?? '/assets/icon/no-image.png'
@@ -86,14 +92,14 @@ export default defineComponent({
     const { isOpenModal, openModal, closeModal } = useModal()
 
     const clickRegistAsReading = () => {
-      emit('registAsReading', props.book)
+      emit('registAsReading', props.book.id)
     }
     const clickRegistAsStock = () => {
-      emit('registAsStock', props.book)
+      emit('registAsStock', props.book.id)
     }
 
     const onSubmit = (book: BookItem, payload: BookPayload) => {
-      emit('registAsRead', book, payload)
+      emit('registAsRead', book.id, payload)
     }
     return {
       thumbnail,

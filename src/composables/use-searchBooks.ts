@@ -1,8 +1,10 @@
 import { computed, reactive, toRefs, ref, watch } from 'vue'
 import { Result, Params, RELEVANCE } from '@/repositories/book'
 import RepositoryFactory, { BOOK } from '@/repositories/RepositoryFactory'
+import { useBookStore } from '@/store/book'
 import debounce from 'lodash.debounce'
 const BookRepository = RepositoryFactory[BOOK]
+const { state, setBooks, addBooks } = useBookStore()
 
 /**
  * 検索パラメータ
@@ -32,6 +34,7 @@ export const useSearchBooks = () => {
     startIndex.value = 1
     const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
     result.value = r
+    setBooks(r.items)
     loading.value = false
   }, 300))
 
@@ -43,11 +46,7 @@ export const useSearchBooks = () => {
     startIndex.value += 10
     const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
     e.target.complete()
-    if (result.value) {
-      result.value.items = [...result.value.items, ...r.items]
-    } else {
-      result.value = r
-    }
+    addBooks(r.items)
   }
 
   /**
@@ -55,7 +54,7 @@ export const useSearchBooks = () => {
  */
   const isFinished = computed(() => {
     if (!result.value) return false
-    return result.value.totalItems <= result.value.items.length
+    return result.value.totalItems <= state.books.length
   })
 
   /**
