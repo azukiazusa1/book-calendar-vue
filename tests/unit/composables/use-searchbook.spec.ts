@@ -1,7 +1,7 @@
 import { useSearchBooks } from '@/composables/use-searchBooks'
 import { createDummyBooks } from '@/composables/utils'
 import flushPromises from 'flush-promises'
-const { startIndex, result, loading, q, orderBy, nextPage, isFinished } = useSearchBooks()
+const { startIndex, result, loading, q, orderBy, nextPage, isFinished, empty } = useSearchBooks()
 
 jest.mock('lodash.debounce', () => (fn: any) => {
   return fn
@@ -104,11 +104,7 @@ describe('@/composables/use-search-book', () => {
       }
       expect(isFinished.value).toBeFalsy()
 
-      result.value = {
-        kind: 'value',
-        totalItems: 10,
-        items: createDummyBooks(9)
-      }
+      result.value.items = createDummyBooks(9)
       expect(isFinished.value).toBeFalsy()
     })
 
@@ -129,12 +125,29 @@ describe('@/composables/use-search-book', () => {
       }
       expect(isFinished.value).toBeTruthy()
 
+      result.value.items = createDummyBooks(20)
+      expect(isFinished.value).toBeTruthy()
+    })
+  })
+
+  describe('empty', () => {
+    test('totalItemsが0のときだけtrue', () => {
       result.value = {
         kind: 'value',
         totalItems: 10,
         items: createDummyBooks(20)
       }
-      expect(isFinished.value).toBeTruthy()
+
+      expect(empty.value).toBeFalsy()
+
+      result.value.totalItems = 4
+      expect(empty.value).toBeFalsy()
+
+      result.value.totalItems = 0
+      expect(empty.value).toBeTruthy()
+
+      result.value = null
+      expect(empty.value).toBeFalsy()
     })
   })
 })
