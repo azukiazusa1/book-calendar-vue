@@ -1,6 +1,7 @@
 import { useSearchBooks } from '@/composables/use-searchBooks'
+import { createDummyBooks } from '@/composables/utils'
 import flushPromises from 'flush-promises'
-const { startIndex, result, loading, q, orderBy } = useSearchBooks()
+const { startIndex, result, loading, q, orderBy, nextPage } = useSearchBooks()
 
 jest.mock('lodash.debounce', () => (fn: any) => {
   return fn
@@ -67,12 +68,30 @@ describe('@/composables/use-search-book', () => {
     })
   })
 
-  // describe('nextPage', () => {
-  //   test('repositoryからデータを取得して、result.itemの配列に追加される', () => {
-  //     result.value = {
-  //       kind: 'value',
-  //       totalItems: '1'
-  //     }
-  //   })
-  // })
+  describe('nextPage', () => {
+    const e = {
+      target: {
+        complete: jest.fn()
+      }
+    }
+    test('repositoryからデータを取得して、result.itemの配列に追加される', async () => {
+      result.value = {
+        kind: 'value',
+        totalItems: 10,
+        items: createDummyBooks(4)
+      }
+
+      await nextPage(e)
+
+      expect(result.value.items.length).toEqual(8)
+    })
+
+    test('startIndexが呼び出す度に+10される', async () => {
+      await nextPage(e)
+      expect(startIndex.value).toEqual(11)
+
+      await nextPage(e)
+      expect(startIndex.value).toEqual(21)
+    })
+  })
 })
