@@ -1,8 +1,12 @@
 import { userStore, created } from '@/store/user'
-import { auth } from '@/composables/use-auth'
-
+import { useAuth } from '@/composables/use-auth'
+const { auth } = useAuth()
 jest.mock('@/composables/use-auth', () => ({
-  auth: jest.fn()
+  useAuth: () => {
+    return {
+      auth: jest.fn()
+    }
+  }
 }))
 
 let mockLoggedIn: boolean

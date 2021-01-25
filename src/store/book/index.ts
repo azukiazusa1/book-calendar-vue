@@ -1,9 +1,10 @@
-import { setStatusAsRead, setStatusAsReading, setStatusAsStock } from '@/composables/use-bookStatus'
+import { useBookStatus } from '@/composables/use-bookStatus'
 import { BookItem, BookPayload } from '@/repositories/book'
 import RepositoryFactory, { BOOK } from '@/repositories/RepositoryFactory'
 import { reactive, readonly, InjectionKey, inject } from 'vue'
 import { BookState, BookStore } from './types'
 const BookRepository = RepositoryFactory[BOOK]
+const { setStatusAsRead, setStatusAsReading, setStatusAsStock } = useBookStatus()
 
 const state = reactive<BookState>({
   books: []

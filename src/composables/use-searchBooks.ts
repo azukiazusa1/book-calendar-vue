@@ -12,29 +12,15 @@ const params = reactive<Params>({
   orderBy: RELEVANCE
 })
 
-export const setQ = (q: string) => {
+const setQ = (q: string) => {
   params.q = q
 }
 
-export const { q, orderBy } = toRefs(params)
+const result = ref<Result | null>(null)
+const startIndex = ref(1)
+const loading = ref(true)
 
-/**
- * すべての要素を取得しきったかどうか判定します。
- * 取得結果の数 < 1ページあたりの取得数なら、
- * すべての要素を取得しきったと判定します。
- *
- * @param items 取得結果
- * @param limit 1ページあたりの取得数
- */
-export const isFinished = (items: any[], limit = 10) => {
-  return items.length < limit
-}
-
-export const useSearchBooks = async () => {
-  const result = ref<Result | null>(null)
-  const startIndex = ref(1)
-  const isDisabled = ref(false)
-
+export const useSearchBooks = () => {
   /**
    * 検索パラメータに変更があるたびに結果を取得します。
    * キーワードが未入力のときはなにもしません。
@@ -42,13 +28,12 @@ export const useSearchBooks = async () => {
    */
   watch(params, debounce(async () => {
     if (!params.q.trim()) return
+    loading.value = true
     startIndex.value = 1
     const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
     result.value = r
+    loading.value = false
   }, 300))
-
-  const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
-  result.value = r
 
   /**
    * 次のページの要素を取得します。
@@ -63,8 +48,15 @@ export const useSearchBooks = async () => {
     } else {
       result.value = r
     }
-    isDisabled.value = isFinished(r.items)
   }
+
+  /**
+ * すべての要素を取得しきったかどうか判定します。
+ */
+  const isFinished = computed(() => {
+    if (!result.value) return false
+    return result.value.totalItems <= result.value.items.length
+  })
 
   /**
    * 取得結果が0件だったかどうか判定します。
@@ -74,9 +66,13 @@ export const useSearchBooks = async () => {
   })
 
   return {
+    ...toRefs(params),
+    setQ,
+    isFinished,
     result,
+    startIndex,
     empty,
     nextPage,
-    isDisabled
+    loading
   }
 }

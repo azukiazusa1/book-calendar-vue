@@ -6,7 +6,7 @@ import 'firebase/auth'
  * Googleアカウントによるログインを実行します。
  * @returns ログインユーザー or null
  */
-export const signInWithGoogle = async () => {
+const signInWithGoogle = async () => {
   const provider = new firebase.auth.GoogleAuthProvider()
   const { user } = await firebase.auth().signInWithPopup(provider)
   return user
@@ -15,7 +15,7 @@ export const signInWithGoogle = async () => {
 /**
  * ログアウトを実行します。
  */
-export const logout = () => {
+const logout = () => {
   return firebase.auth().signOut()
 }
 
@@ -23,7 +23,7 @@ export const logout = () => {
  * 現在ログインしているならユーザーをそうでないならnullを返します。
  * @returns ログインユーザー or null
  */
-export const auth = () => {
+const auth = () => {
   return new Promise<f.User | null>(resolve => {
     firebase.auth().onAuthStateChanged(user => {
       resolve(user)

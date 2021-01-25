@@ -1,5 +1,6 @@
 <template>
-  <ion-list>
+  <skelton-list v-if="loading" />
+  <ion-list v-else>
     <div v-if="empty">
       検索結果が見つかりませんでした。
     </div>
@@ -14,7 +15,7 @@
     />
      <ion-infinite-scroll
         @ionInfinite="nextPage($event)"
-        :disabled="isDisabled"
+        :disabled="isFinished || loading"
       >
         <ion-infinite-scroll-content
           loading-spinner="bubbles"
@@ -27,6 +28,7 @@
 <script lang="ts">
 import { IonList, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/vue'
 import BookItem from '@/components/molecules/BookItem.vue'
+import SkeltonList from '@/components/molecules/SkeltonList.vue'
 import { defineComponent } from 'vue'
 import { useSearchBooks } from '@/composables/use-searchBooks'
 import { useBookStore } from '@/store/book'
@@ -36,17 +38,18 @@ export default defineComponent({
     IonList,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
-    BookItem
+    BookItem,
+    SkeltonList
   },
-  async setup () {
+  setup () {
     const { registAsReading, registAsRead, registAsStock } = useBookStore()
-    const { result, empty, nextPage, isDisabled } = await useSearchBooks()
-
+    const { result, empty, nextPage, loading, isFinished } = useSearchBooks()
     return {
       result,
       empty,
       nextPage,
-      isDisabled,
+      loading,
+      isFinished,
       registAsReading,
       registAsRead,
       registAsStock

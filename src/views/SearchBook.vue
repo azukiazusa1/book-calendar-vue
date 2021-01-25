@@ -7,14 +7,7 @@
     />
     <ion-content>
       <error-toast :is-open="err" />
-      <Suspense v-if="q">
-        <template #default>
-          <async-book-list :q="q" :orderBy="orderBy" />
-        </template>
-        <template #fallback>
-          <skelton-list />
-        </template>
-      </Suspense>
+      <async-book-list v-if="q" :q="q" :orderBy="orderBy" />
       <search-history
         v-else
         :search-words="storage"
@@ -30,12 +23,11 @@ import { IonPage, IonContent } from '@ionic/vue'
 import AsyncBookList from '@/components/organism/AsyncBookList.vue'
 import SearchArea from '@/components/molecules/SearchArea.vue'
 import ErrorToast from '@/components/atoms/ErrorToast.vue'
-import SkeltonList from '@/components/molecules/SkeltonList.vue'
 import SearchHistory from '@/components/molecules/SearchHistory.vue'
 import { useTitle } from 'vue-composable'
 import { APP_TITLE } from '@/constant'
 import { defineComponent, ref, onErrorCaptured } from 'vue'
-import { q, orderBy, setQ } from '@/composables/use-searchBooks'
+import { useSearchBooks } from '@/composables/use-searchBooks'
 import { useStorage } from '@/composables/use-storage'
 
 export default defineComponent({
@@ -45,12 +37,12 @@ export default defineComponent({
     SearchArea,
     ErrorToast,
     AsyncBookList,
-    SkeltonList,
     SearchHistory
   },
   setup () {
     const title = useTitle()
     title.value = `本を探す | ${APP_TITLE}`
+    const { q, orderBy, setQ } = useSearchBooks()
     const { storage, set, clear } = useStorage()
 
     const err = ref<boolean>(false)
