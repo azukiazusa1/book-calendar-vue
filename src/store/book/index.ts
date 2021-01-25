@@ -11,6 +11,22 @@ const state = reactive<BookState>({
 })
 
 /**
+ * 現在のbooksを新しいもので置き換えます。
+ * @param books
+ */
+const setBooks = (books: BookItem[]) => {
+  state.books = books
+}
+
+/**
+ * 現在のbooksの後に追加します。
+ * @param books
+ */
+const addBooks = (books: BookItem[] | BookItem) => {
+  const newBooks = Array.isArray(books) ? books : [books]
+  state.books = [...state.books, ...newBooks]
+}
+/**
  * 本を読書中として登録します。
  *
  * @param book
@@ -18,8 +34,7 @@ const state = reactive<BookState>({
 const registAsReading = async (book: BookItem) => {
   const readingBook = setStatusAsReading(book)
   readingBook.startDate = new Date()
-  const data = await BookRepository.regist(readingBook)
-  state.books.push(data)
+  await BookRepository.regist(readingBook)
 }
 
 /**
@@ -30,8 +45,7 @@ const registAsReading = async (book: BookItem) => {
 const registAsRead = async (book: BookItem, payload: BookPayload) => {
   const readBook = setStatusAsRead(book)
   console.log({ ...readBook, ...payload })
-  const data = await BookRepository.regist({ ...readBook, ...payload })
-  state.books.push(data)
+  await BookRepository.regist({ ...readBook, ...payload })
 }
 
 /**
@@ -41,12 +55,13 @@ const registAsRead = async (book: BookItem, payload: BookPayload) => {
  */
 const registAsStock = async (book: BookItem) => {
   const stockBook = setStatusAsStock(book)
-  const data = await BookRepository.regist(stockBook)
-  state.books.push(data)
+  await BookRepository.regist(stockBook)
 }
 
 export const bookStore = {
   state: readonly(state),
+  setBooks,
+  addBooks,
   registAsReading,
   registAsRead,
   registAsStock
