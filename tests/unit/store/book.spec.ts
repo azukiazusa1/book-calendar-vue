@@ -1,6 +1,6 @@
 import { createDummyBook, createDummyBooks } from '@/composables/utils'
 import { useBookStore } from '@/store/book'
-const { state, clearBooks, addBooks, setBooks, getBook } = useBookStore()
+const { state, clearBooks, addBooks, setBooks, getBook, bookCount } = useBookStore()
 
 describe('@/store/book', () => {
   beforeEach(() => {
@@ -45,6 +45,14 @@ describe('@/store/book', () => {
 
     test('存在しないidの場合、例外をスローします。', () => {
       expect(() => getBook('2')).toThrow('book id: 2 is not found')
+    })
+  })
+
+  describe('bookCount', () => {
+    test('現在のbookの個数を返します', () => {
+      expect(bookCount.value).toBe(0)
+      setBooks(createDummyBooks(3))
+      expect(bookCount.value).toBe(3)
     })
   })
 })
