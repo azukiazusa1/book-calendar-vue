@@ -1,4 +1,4 @@
-import { createDummyBooks } from '@/composables/utils'
+import { createDummyBook, createDummyBooks } from '@/composables/utils'
 import { useBookStore } from '@/store/book'
 const { state, clearBooks, addBooks } = useBookStore()
 
@@ -15,6 +15,13 @@ describe('@/store/book', () => {
 
         addBooks(createDummyBooks(4))
         expect(state.books.length).toBe(7)
+      })
+
+      test('bookオブジェクトを渡した時', () => {
+        addBooks(createDummyBooks(3))
+
+        addBooks(createDummyBook())
+        expect(state.books.length).toBe(4)
       })
     })
   })
