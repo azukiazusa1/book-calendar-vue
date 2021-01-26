@@ -1,11 +1,8 @@
-import { computed, reactive, toRefs, ref, watch } from 'vue'
-import { Result, Params, RELEVANCE } from '@/repositories/book'
+import { reactive, toRefs, ref, watch } from 'vue'
+import { Result, Params, RELEVANCE, BookItem } from '@/repositories/book'
 import RepositoryFactory, { BOOK } from '@/repositories/RepositoryFactory'
-import { useBookStore } from '@/store/book'
 import debounce from 'lodash.debounce'
 const BookRepository = RepositoryFactory[BOOK]
-const { bookCount, setBooks, addBooks } = useBookStore()
-
 /**
  * 検索パラメータ
  */
@@ -18,11 +15,21 @@ const setQ = (q: string) => {
   params.q = q
 }
 
+export const useSearchParams = () => {
+  return {
+    ...toRefs(params),
+    setQ
+  }
+}
+
 const result = ref<Result | null>(null)
 const startIndex = ref(1)
 const loading = ref(true)
 
-export const useSearchBooks = () => {
+export const useSearchBooks = (
+  setFunc: (items: BookItem[]) => void,
+  addFunc: (items: BookItem[]) => void
+) => {
   /**
    * 検索パラメータに変更があるたびに結果を取得します。
    * キーワードが未入力のときはなにもしません。
@@ -34,7 +41,7 @@ export const useSearchBooks = () => {
     startIndex.value = 1
     const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
     result.value = r
-    setBooks(r.items)
+    setFunc(r.items)
     loading.value = false
   }, 300))
 
@@ -46,31 +53,12 @@ export const useSearchBooks = () => {
     startIndex.value += 10
     const r = await BookRepository.find({ ...params, startIndex: startIndex.value })
     e.target.complete()
-    addBooks(r.items)
+    addFunc(r.items)
   }
 
-  /**
- * すべての要素を取得しきったかどうか判定します。
- */
-  const isFinished = computed(() => {
-    if (!result.value) return false
-    return result.value.totalItems <= bookCount.value
-  })
-
-  /**
-   * 取得結果が0件だったかどうか判定します。
-   */
-  const empty = computed(() => {
-    return result.value?.totalItems === 0
-  })
-
   return {
-    ...toRefs(params),
-    setQ,
-    isFinished,
     result,
     startIndex,
-    empty,
     nextPage,
     loading
   }

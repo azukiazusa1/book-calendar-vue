@@ -43,8 +43,8 @@ export default defineComponent({
     SkeltonList
   },
   setup () {
-    const { state, registAsReading, registAsRead, registAsStock } = useBookStore()
-    const { result, nextPage, loading } = useSearchBooks()
+    const { state, setBooks, addBooks, registAsReading, registAsRead, registAsStock } = useBookStore()
+    const { result, nextPage, loading } = useSearchBooks(setBooks, addBooks)
     const { books } = toRefs(state)
     const { empty, isFinished } = useSearchStatus(result, books)
     return {

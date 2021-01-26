@@ -1,11 +1,15 @@
-import { useSearchBooks } from '@/composables/use-searchBooks'
+import { useSearchBooks, useSearchParams } from '@/composables/use-searchBooks'
 import { createDummyBooks } from '@/composables/utils'
 import flushPromises from 'flush-promises'
-const { startIndex, result, loading, q, orderBy, nextPage, isFinished, empty } = useSearchBooks()
 
 jest.mock('lodash.debounce', () => (fn: any) => {
   return fn
 })
+
+const mockSetBooks = jest.fn()
+const mockAddBooks = jest.fn()
+const { q, orderBy } = useSearchParams()
+const { startIndex, result, loading, nextPage } = useSearchBooks(mockSetBooks, mockAddBooks)
 
 const initialize = () => {
   startIndex.value = 1
@@ -24,6 +28,7 @@ describe('@/composables/use-search-book', () => {
       q.value = 'test'
       await flushPromises()
       expect(result.value).not.toBeNull()
+      expect(mockSetBooks).toHaveBeenCalled()
     })
 
     test('qが空の場合にはデータを取得しない', async () => {
@@ -41,6 +46,7 @@ describe('@/composables/use-search-book', () => {
       orderBy.value = 'newest'
       await flushPromises()
       expect(result.value).not.toBeNull()
+      expect(mockSetBooks).toHaveBeenCalled()
     })
 
     test('startIndexの値が変更されてもなにもしない', async () => {
@@ -74,7 +80,7 @@ describe('@/composables/use-search-book', () => {
         complete: jest.fn()
       }
     }
-    test('repositoryからデータを取得して、result.itemの配列に追加される', async () => {
+    test('repositoryからデータを取得して、addBooksが呼ばれる', async () => {
       result.value = {
         kind: 'value',
         totalItems: 10,
@@ -83,7 +89,7 @@ describe('@/composables/use-search-book', () => {
 
       await nextPage(e)
 
-      expect(result.value.items.length).toEqual(8)
+      expect(mockAddBooks).toHaveBeenCalled()
     })
 
     test('startIndexが呼び出す度に+10される', async () => {
@@ -92,62 +98,6 @@ describe('@/composables/use-search-book', () => {
 
       await nextPage(e)
       expect(startIndex.value).toEqual(21)
-    })
-  })
-
-  describe('isFinished', () => {
-    test('totalItems > itemsのときはfalse', () => {
-      result.value = {
-        kind: 'value',
-        totalItems: 10,
-        items: createDummyBooks(4)
-      }
-      expect(isFinished.value).toBeFalsy()
-
-      result.value.items = createDummyBooks(9)
-      expect(isFinished.value).toBeFalsy()
-    })
-
-    test('totalItems = items のときはtrue', () => {
-      result.value = {
-        kind: 'value',
-        totalItems: 10,
-        items: createDummyBooks(10)
-      }
-      expect(isFinished.value).toBeTruthy()
-    })
-
-    test('totalItems < itemsのときはtrue', () => {
-      result.value = {
-        kind: 'value',
-        totalItems: 10,
-        items: createDummyBooks(11)
-      }
-      expect(isFinished.value).toBeTruthy()
-
-      result.value.items = createDummyBooks(20)
-      expect(isFinished.value).toBeTruthy()
-    })
-  })
-
-  describe('empty', () => {
-    test('totalItemsが0のときだけtrue', () => {
-      result.value = {
-        kind: 'value',
-        totalItems: 10,
-        items: createDummyBooks(20)
-      }
-
-      expect(empty.value).toBeFalsy()
-
-      result.value.totalItems = 4
-      expect(empty.value).toBeFalsy()
-
-      result.value.totalItems = 0
-      expect(empty.value).toBeTruthy()
-
-      result.value = null
-      expect(empty.value).toBeFalsy()
     })
   })
 })
