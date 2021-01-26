@@ -28,6 +28,10 @@ const getBook = (id: string) => {
  */
 const bookCount = computed(() => state.books.length)
 
+const clearBooks = () => {
+  state.books = []
+}
+
 /**
  * 現在のbooksを新しいもので置き換えます。
  * @param books
@@ -83,8 +87,9 @@ export const useBookStore = () => {
   return {
     state: readonly(state),
     getBook,
-    bookCount,
     setBooks,
+    clearBooks,
+    bookCount,
     addBooks,
     registAsReading,
     registAsRead,
