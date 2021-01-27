@@ -92,7 +92,7 @@ describe('@/store/book', () => {
 
   describe('registAsStock', () => {
     describe('本をストックとして登録します。', () => {
-      expect(1).toBe(3)
+      expect(1).toBe(2)
     })
   })
 })
