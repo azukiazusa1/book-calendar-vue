@@ -102,7 +102,7 @@ describe('@/store/book', () => {
 
   describe('registAsRead', () => {
     const startDate = new Date('2020-01-01')
-    const endDate = new Date('2020-01-10')
+    const endDate = new Date('2020-01-11')
     const comment = 'lorem ipsum'
     const payload = {
       startDate,
