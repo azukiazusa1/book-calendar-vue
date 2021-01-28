@@ -1,5 +1,5 @@
 import { createDummyBook, createDummyBooks } from '@/composables/utils'
-import { READING } from '@/repositories/book'
+import { READING, STOCK } from '@/repositories/book'
 import { useBookStore } from '@/store/book'
 import { MockBookRepository } from '@/repositories/book/MockBookRepository'
 const {
@@ -9,16 +9,11 @@ const {
   setBooks,
   getBook,
   bookCount,
-  registAsReading
+  registAsReading,
+  registAsStock
 } = useBookStore()
 
 const registSpy = jest.spyOn(MockBookRepository.prototype, 'regist')
-// const mockRegist = jest.fn()
-// jest.mock('@/repositories/book/MockBookRepository', () => {
-//   return jest.fn().mockImplementation(() => {
-//     return { regist: mockRegist }
-//   })
-// })
 
 describe('@/store/book', () => {
   beforeEach(() => {
@@ -91,8 +86,16 @@ describe('@/store/book', () => {
   })
 
   describe('registAsStock', () => {
-    describe('本をストックとして登録します。', () => {
-      expect(1).toBe(2)
+    test('本をストックとして登録します。', async () => {
+      setBooks(createDummyBooks(3))
+      await registAsStock('2')
+      expect(getBook('2').status).toBe(STOCK)
+    })
+
+    test('BookRepository registが呼ばれる', async () => {
+      setBooks(createDummyBooks(3))
+      await registAsStock('2')
+      expect(registSpy).toHaveBeenCalled()
     })
   })
 })
