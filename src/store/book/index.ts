@@ -68,8 +68,10 @@ const registAsReading = async (id: string) => {
 const registAsRead = async (id: string, payload: BookPayload) => {
   const book = getBook(id)
   const readBook = setStatusAsRead(book)
-  console.log({ ...readBook, ...payload })
-  await BookRepository.regist({ ...readBook, ...payload })
+  readBook.startDate = payload.startDate
+  readBook.endDate = payload.endDate
+  readBook.comment = payload.comment
+  await BookRepository.regist(readBook)
 }
 
 /**

@@ -1,5 +1,5 @@
 import { createDummyBook, createDummyBooks } from '@/composables/utils'
-import { READING, STOCK } from '@/repositories/book'
+import { READING, STOCK, BookPayload, READ } from '@/repositories/book'
 import { useBookStore } from '@/store/book'
 import { MockBookRepository } from '@/repositories/book/MockBookRepository'
 const {
@@ -10,7 +10,8 @@ const {
   getBook,
   bookCount,
   registAsReading,
-  registAsStock
+  registAsStock,
+  registAsRead
 } = useBookStore()
 
 const registSpy = jest.spyOn(MockBookRepository.prototype, 'regist')
@@ -95,6 +96,42 @@ describe('@/store/book', () => {
     test('BookRepository registが呼ばれる', async () => {
       setBooks(createDummyBooks(3))
       await registAsStock('2')
+      expect(registSpy).toHaveBeenCalled()
+    })
+  })
+
+  describe('registAsRead', () => {
+    const startDate = new Date('2020-01-01')
+    const endDate = new Date('2020-01-10')
+    const comment = 'lorem ipsum'
+    const payload = {
+      startDate,
+      endDate,
+      comment
+    } as BookPayload
+
+    beforeEach(async () => {
+      setBooks(createDummyBooks(3))
+      await registAsRead('2', payload)
+    })
+
+    test('本を読了済として登録します。', () => {
+      expect(getBook('2').status).toBe(READ)
+    })
+
+    test('payloadのstartDateが設定される', () => {
+      expect(getBook('2').startDate).toBe(startDate)
+    })
+
+    test('payloadのendDateが設定される', () => {
+      expect(getBook('2').endDate).toBe(endDate)
+    })
+
+    test('payloadのcommentが設定される', () => {
+      expect(getBook('2').comment).toBe(comment)
+    })
+
+    test('BookRepository registが呼ばれる', () => {
       expect(registSpy).toHaveBeenCalled()
     })
   })
