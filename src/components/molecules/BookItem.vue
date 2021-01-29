@@ -6,7 +6,11 @@
       :src="thumbnail"
     />
     <ion-label>
-      <h2>{{ book.title }}</h2>
+      <h2>
+        <router-link :to="`/books/${book.id}`">
+          {{ book.title }}
+        </router-link>
+      </h2>
       <h3 v-if="book.auhtors">{{ book.auhtors.join(',') }}</h3>
       <p>{{ book.description }}</p>
       <ion-badge v-if="book.status === READING" class="ion-margin-top">読書中!</ion-badge>
@@ -53,6 +57,7 @@
 <script lang="ts">
 import { IonItem, IonImg, IonLabel, IonBadge, IonButton, IonModal } from '@ionic/vue'
 import EditModal from '@/components/molecules/EditModal.vue'
+import { useRouter } from 'vue-router'
 import { computed, defineComponent, PropType } from 'vue'
 import { useModal } from '@/composables/use-modal'
 import { BookItem, READING, READ, STOCK, BookPayload } from '@/repositories/book'
@@ -88,7 +93,7 @@ export default defineComponent({
     const thumbnail = computed(() => {
       return props.book.imageLinks?.smallThumbnail ?? '/assets/icon/no-image.png'
     })
-
+    const router = useRouter()
     const { isOpenModal, openModal, closeModal } = useModal()
 
     const clickRegistAsReading = () => {
@@ -101,6 +106,7 @@ export default defineComponent({
     const onSubmit = (book: BookItem, payload: BookPayload) => {
       emit('registAsRead', book.id, payload)
     }
+
     return {
       thumbnail,
       isOpenModal,
