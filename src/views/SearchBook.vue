@@ -27,7 +27,7 @@ import SearchHistory from '@/components/molecules/SearchHistory.vue'
 import { useTitle } from 'vue-composable'
 import { APP_TITLE } from '@/constant'
 import { defineComponent, ref, onErrorCaptured } from 'vue'
-import { useSearchBooks } from '@/composables/use-searchBooks'
+import { useSearchParams } from '@/composables/use-searchBooks'
 import { useStorage } from '@/composables/use-storage'
 
 export default defineComponent({
@@ -42,7 +42,7 @@ export default defineComponent({
   setup () {
     const title = useTitle()
     title.value = `本を探す | ${APP_TITLE}`
-    const { q, orderBy, setQ } = useSearchBooks()
+    const { q, orderBy, setQ } = useSearchParams()
     const { storage, set, clear } = useStorage()
 
     const err = ref<boolean>(false)

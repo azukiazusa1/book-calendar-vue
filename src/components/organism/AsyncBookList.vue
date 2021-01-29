@@ -6,7 +6,7 @@
     </div>
     <book-item
       v-else
-      v-for="book in result.items"
+      v-for="book in state.books"
       :key="book.id"
       :book="book"
       @RegistAsReading="registAsReading"
@@ -29,9 +29,10 @@
 import { IonList, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/vue'
 import BookItem from '@/components/molecules/BookItem.vue'
 import SkeltonList from '@/components/molecules/SkeltonList.vue'
-import { defineComponent } from 'vue'
+import { defineComponent, toRefs } from 'vue'
 import { useSearchBooks } from '@/composables/use-searchBooks'
 import { useBookStore } from '@/store/book'
+import { useSearchStatus } from '@/composables/use-searchStatus'
 
 export default defineComponent({
   components: {
@@ -42,9 +43,12 @@ export default defineComponent({
     SkeltonList
   },
   setup () {
-    const { registAsReading, registAsRead, registAsStock } = useBookStore()
-    const { result, empty, nextPage, loading, isFinished } = useSearchBooks()
+    const { state, setBooks, addBooks, registAsReading, registAsRead, registAsStock } = useBookStore()
+    const { result, nextPage, loading } = useSearchBooks(setBooks, addBooks)
+    const { books } = toRefs(state)
+    const { empty, isFinished } = useSearchStatus(result, books)
     return {
+      state,
       result,
       empty,
       nextPage,

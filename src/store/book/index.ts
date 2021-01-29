@@ -1,8 +1,8 @@
 import { useBookStatus } from '@/composables/use-bookStatus'
 import { BookItem, BookPayload } from '@/repositories/book'
 import RepositoryFactory, { BOOK } from '@/repositories/RepositoryFactory'
-import { reactive, readonly, InjectionKey, inject } from 'vue'
-import { BookState, BookStore } from './types'
+import { computed, reactive, readonly } from 'vue'
+import { BookState } from './types'
 const BookRepository = RepositoryFactory[BOOK]
 const { setStatusAsRead, setStatusAsReading, setStatusAsStock } = useBookStatus()
 
@@ -11,15 +11,53 @@ const state = reactive<BookState>({
 })
 
 /**
+ * idから特定の本を取得します。
+ * @param id
+ */
+const getBook = (id: string) => {
+  const book = state.books.find(book => book.id === id)
+  if (!book) {
+    throw new Error(`book id: ${id} is not found`)
+  }
+  return book
+}
+
+/**
+ * bookの数
+ *
+ */
+const bookCount = computed(() => state.books.length)
+
+const clearBooks = () => {
+  state.books = []
+}
+
+/**
+ * 現在のbooksを新しいもので置き換えます。
+ * @param books
+ */
+const setBooks = (books: BookItem[]) => {
+  state.books = books
+}
+
+/**
+ * 現在のbooksの後に追加します。
+ * @param books
+ */
+const addBooks = (books: BookItem[] | BookItem) => {
+  const newBooks = Array.isArray(books) ? books : [books]
+  state.books = [...state.books, ...newBooks]
+}
+/**
  * 本を読書中として登録します。
  *
  * @param book
  */
-const registAsReading = async (book: BookItem) => {
+const registAsReading = async (id: string) => {
+  const book = getBook(id)
   const readingBook = setStatusAsReading(book)
   readingBook.startDate = new Date()
-  const data = await BookRepository.regist(readingBook)
-  state.books.push(data)
+  await BookRepository.regist(readingBook)
 }
 
 /**
@@ -27,11 +65,13 @@ const registAsReading = async (book: BookItem) => {
  *
  * @param book
  */
-const registAsRead = async (book: BookItem, payload: BookPayload) => {
+const registAsRead = async (id: string, payload: BookPayload) => {
+  const book = getBook(id)
   const readBook = setStatusAsRead(book)
-  console.log({ ...readBook, ...payload })
-  const data = await BookRepository.regist({ ...readBook, ...payload })
-  state.books.push(data)
+  readBook.startDate = payload.startDate
+  readBook.endDate = payload.endDate
+  readBook.comment = payload.comment
+  await BookRepository.regist(readBook)
 }
 
 /**
@@ -39,24 +79,22 @@ const registAsRead = async (book: BookItem, payload: BookPayload) => {
  *
  * @param book
  */
-const registAsStock = async (book: BookItem) => {
+const registAsStock = async (id: string) => {
+  const book = getBook(id)
   const stockBook = setStatusAsStock(book)
-  const data = await BookRepository.regist(stockBook)
-  state.books.push(data)
+  await BookRepository.regist(stockBook)
 }
 
-export const bookStore = {
-  state: readonly(state),
-  registAsReading,
-  registAsRead,
-  registAsStock
-}
-
-export const bookKey: InjectionKey<BookStore> = Symbol('book')
-
-/**
- * userStoreを返します。
- */
 export const useBookStore = () => {
-  return inject(bookKey, bookStore)
+  return {
+    state: readonly(state),
+    getBook,
+    setBooks,
+    clearBooks,
+    bookCount,
+    addBooks,
+    registAsReading,
+    registAsRead,
+    registAsStock
+  }
 }
