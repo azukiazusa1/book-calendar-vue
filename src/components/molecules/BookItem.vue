@@ -57,7 +57,6 @@
 <script lang="ts">
 import { IonItem, IonImg, IonLabel, IonBadge, IonButton, IonModal } from '@ionic/vue'
 import EditModal from '@/components/molecules/EditModal.vue'
-import { useRouter } from 'vue-router'
 import { computed, defineComponent, PropType } from 'vue'
 import { useModal } from '@/composables/use-modal'
 import { BookItem, READING, READ, STOCK, BookPayload } from '@/repositories/book'
