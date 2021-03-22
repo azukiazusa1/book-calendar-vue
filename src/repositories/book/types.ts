@@ -107,5 +107,6 @@ export interface Params {
 
 export interface BookRepositoryInterface {
   find(params: Params): Promise<Result>;
+  findById(id: string): Promise<BookItem>;
   regist(Book: BookItem): Promise<BookItem>;
 }

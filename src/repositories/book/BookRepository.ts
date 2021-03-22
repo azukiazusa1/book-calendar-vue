@@ -6,7 +6,6 @@ import { Params, BookRepositoryInterface, Result, BookItem } from './types'
 
 const functions = firebase.functions()
 functions.useEmulator('localhost', 5001)
-const func = functions.httpsCallable('books')
 
 const { auth } = useAuth()
 const useBookRef = async () => {
@@ -20,8 +19,15 @@ const useBookRef = async () => {
 
 export class BookRepository implements BookRepositoryInterface {
   async find (params: Params) {
+    const func = functions.httpsCallable('books')
     const result = await func(params)
     return result.data.data as Result
+  }
+
+  async findById (id: string) {
+    const func = functions.httpsCallable('book')
+    const result = await func(id)
+    return result.data as BookItem
   }
 
   async regist (book: BookItem) {
