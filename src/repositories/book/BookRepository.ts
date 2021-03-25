@@ -19,13 +19,13 @@ const useBookRef = async () => {
 
 export class BookRepository implements BookRepositoryInterface {
   async find (params: Params) {
-    const func = functions.httpsCallable('books')
+    const func = functions.httpsCallable('find')
     const result = await func(params)
     return result.data.data as Result
   }
 
   async findById (id: string) {
-    const func = functions.httpsCallable('book')
+    const func = functions.httpsCallable('findById')
     const result = await func(id)
     return result.data as BookItem
   }
