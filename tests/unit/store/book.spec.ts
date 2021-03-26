@@ -54,11 +54,12 @@ describe('@/store/book', () => {
     test('idによってbookを取得します', () => {
       setBooks(createDummyBooks(3))
       const book = getBook('2')
-      expect(book.id).toBe('2')
+      expect(book?.id).toBe('2')
     })
 
-    test('存在しないidの場合、例外をスローします。', () => {
-      expect(() => getBook('2')).toThrow('book id: 2 is not found')
+    test('存在しないidの場合、undefinedを返します。', () => {
+      const book = getBook('2')
+      expect(book).toBeUndefined()
     })
   })
 
@@ -75,7 +76,7 @@ describe('@/store/book', () => {
       test('stateの値が変更される', async () => {
         setBooks(createDummyBooks(3))
         await registAsReading('2')
-        expect(getBook('2').status).toBe(READING)
+        expect(getBook('2')?.status).toBe(READING)
       })
     })
 
@@ -90,7 +91,7 @@ describe('@/store/book', () => {
     test('本をストックとして登録します。', async () => {
       setBooks(createDummyBooks(3))
       await registAsStock('2')
-      expect(getBook('2').status).toBe(STOCK)
+      expect(getBook('2')?.status).toBe(STOCK)
     })
 
     test('BookRepository registが呼ばれる', async () => {
@@ -116,19 +117,19 @@ describe('@/store/book', () => {
     })
 
     test('本を読了済として登録します。', () => {
-      expect(getBook('2').status).toBe(READ)
+      expect(getBook('2')?.status).toBe(READ)
     })
 
     test('payloadのstartDateが設定される', () => {
-      expect(getBook('2').startDate).toBe(startDate)
+      expect(getBook('2')?.startDate).toBe(startDate)
     })
 
     test('payloadのendDateが設定される', () => {
-      expect(getBook('2').endDate).toBe(endDate)
+      expect(getBook('2')?.endDate).toBe(endDate)
     })
 
     test('payloadのcommentが設定される', () => {
-      expect(getBook('2').comment).toBe(comment)
+      expect(getBook('2')?.comment).toBe(comment)
     })
 
     test('BookRepository registが呼ばれる', () => {

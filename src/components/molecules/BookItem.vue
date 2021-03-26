@@ -92,7 +92,7 @@ export default defineComponent({
     const thumbnail = computed(() => {
       return props.book.imageLinks?.smallThumbnail ?? '/assets/icon/no-image.png'
     })
-    const router = useRouter()
+
     const { isOpenModal, openModal, closeModal } = useModal()
 
     const clickRegistAsReading = () => {
