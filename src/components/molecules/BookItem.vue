@@ -57,7 +57,8 @@
 <script lang="ts">
 import { IonItem, IonImg, IonLabel, IonBadge, IonButton, IonModal } from '@ionic/vue'
 import EditModal from '@/components/molecules/EditModal.vue'
-import { computed, defineComponent, PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
+import { useBookUtils } from '@/composables/use-bookUtils'
 import { useModal } from '@/composables/use-modal'
 import { BookItem, READING, READ, STOCK, BookPayload } from '@/repositories/book'
 
@@ -89,10 +90,7 @@ export default defineComponent({
     }
   },
   setup (props, { emit }) {
-    const thumbnail = computed(() => {
-      return props.book.imageLinks?.smallThumbnail ?? '/assets/icon/no-image.png'
-    })
-
+    const { thumbnail } = useBookUtils()
     const { isOpenModal, openModal, closeModal } = useModal()
 
     const clickRegistAsReading = () => {
@@ -107,7 +105,7 @@ export default defineComponent({
     }
 
     return {
-      thumbnail,
+      thumbnail: thumbnail(props.book, 'small'),
       isOpenModal,
       closeModal,
       openModal,
