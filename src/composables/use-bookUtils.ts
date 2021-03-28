@@ -1,4 +1,5 @@
 import { BookItem } from '@/repositories/book'
+import { striptags } from 'striptags'
 import { computed } from 'vue'
 
 export type ThumnailSize = 'small' | 'medium'
@@ -12,7 +13,10 @@ export const useBookUtils = () => {
     }
   })
 
+  const striptTagsDescription = (book: BookItem) => computed(() => striptags(book.description ?? ''))
+
   return {
-    thumbnail
+    thumbnail,
+    striptTagsDescription
   }
 }

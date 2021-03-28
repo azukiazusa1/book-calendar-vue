@@ -12,7 +12,7 @@
         </router-link>
       </h2>
       <h3 v-if="book.auhtors">{{ book.auhtors.join(',') }}</h3>
-      <p>{{ book.description }}</p>
+      <p>{{ descriptionpd }}</p>
       <ion-badge v-if="book.status === READING" class="ion-margin-top">読書中!</ion-badge>
       <ion-badge v-if="book.status === READ" class="ion-margin-top">読了済!</ion-badge>
       <ion-badge v-if="book.status === STOCK" class="ion-margin-top">ストック済!</ion-badge>
@@ -90,7 +90,7 @@ export default defineComponent({
     }
   },
   setup (props, { emit }) {
-    const { thumbnail } = useBookUtils()
+    const { thumbnail, striptTagsDescription } = useBookUtils()
     const { isOpenModal, openModal, closeModal } = useModal()
 
     const clickRegistAsReading = () => {
@@ -106,6 +106,7 @@ export default defineComponent({
 
     return {
       thumbnail: thumbnail(props.book, 'small'),
+      description: striptTagsDescription(props.book),
       isOpenModal,
       closeModal,
       openModal,

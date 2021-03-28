@@ -27,7 +27,7 @@ export class BookRepository implements BookRepositoryInterface {
   async findById (id: string) {
     const func = functions.httpsCallable('findById')
     const result = await func({ id })
-    return result.data as BookItem
+    return result.data.data as BookItem
   }
 
   async regist (book: BookItem) {

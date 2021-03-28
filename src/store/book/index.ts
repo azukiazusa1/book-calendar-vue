@@ -109,6 +109,7 @@ const registAsStock = async (id: string) => {
  */
 const findById = async (id: string) => {
   const book = await BookRepository.findById(id)
+  console.log(book)
   addBooks(book)
 }
 
