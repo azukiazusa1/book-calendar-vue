@@ -1,33 +1,35 @@
 <template>
   <ion-page>
-    {{ book.title }}
+    <Suspense>
+      <template #default>
+        <async-book-details :id="id" />
+      </template>
+      <template #fallback>
+        <loading-book-details />
+      </template>
+    </Suspense>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { useBookStore } from '@/store/book'
 import { IonPage } from '@ionic/vue'
-import { defineComponent, onMounted } from 'vue'
+import { defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
+import AsyncBookDetails from '@/components/organism/AsyncBookDetails.vue'
+import LoadingBookDetails from '@/components/organism/LoadingBookDetails.vue'
 
 export default defineComponent({
   components: {
-    IonPage
+    IonPage,
+    AsyncBookDetails,
+    LoadingBookDetails
   },
   setup () {
     const route = useRoute()
-    const bookStore = useBookStore()
     const id = route.params.id as string
 
-    onMounted(async () => {
-      if (!bookStore.hasBook(id)) {
-        await bookStore.findById(id)
-      }
-    })
-
     return {
-      id,
-      book: bookStore.getBook(id)
+      id
     }
   }
 })
