@@ -14,7 +14,7 @@ export class MockBookRepository implements BookRepositoryInterface {
   }
 
   async findById (id: string) {
-    await dummyLoading(100000)
+    await dummyLoading()
     const book = items.find(book => book.id === id)
     if (!book) {
       throw new Error('book not found')
