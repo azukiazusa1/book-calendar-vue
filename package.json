@@ -17,6 +17,7 @@
     "@ionic/vue-router": "^5.4.0",
     "@popperjs/core": "^2.6.0",
     "core-js": "^3.6.5",
+    "dayjs": "^1.10.4",
     "eslint": "^7.16.0",
     "firebase": "^8.2.1",
     "install": "^0.13.0",
