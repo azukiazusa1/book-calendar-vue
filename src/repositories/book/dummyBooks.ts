@@ -19,7 +19,8 @@ export default [
     previewLink: 'http://example.com/preview',
     status: 'unread',
     startDate: undefined,
-    endDate: undefined
+    endDate: undefined,
+    comment: undefined
   },
   {
     id: '2',
@@ -39,7 +40,8 @@ export default [
     previewLink: 'http://example.com/preview',
     status: 'reading',
     startDate: '2020-01-01T00:12:00.000Z',
-    endDate: undefined
+    endDate: undefined,
+    comment: undefined
   },
   {
     id: '3',
@@ -59,7 +61,8 @@ export default [
     previewLink: 'http://example.com/preview',
     status: 'read',
     startDate: '2020-01-01T00:12:00.000Z',
-    endDate: '2020-01-10T00:12:00.000Z'
+    endDate: '2020-01-10T00:12:00.000Z',
+    comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque aliquet risus vel ligula maximus dictum. Vestibulum ultrices mauris nec dolor bibendum auctor. Phasellus rutrum, massa quis mollis ullamcorper, tellus dui malesuada tortor, vel porta leo tellus et erat. Vestibulum luctus vulputate risus, vitae porttitor lorem scelerisque venenatis. Duis nunc purus, mollis quis urna sed, gravida dapibus nisi. In id tortor arcu. Aenean semper erat quis eleifend convallis.'
   },
   {
     id: '4',
@@ -79,6 +82,7 @@ export default [
     previewLink: null,
     status: 'stock',
     startDate: undefined,
-    endDate: undefined
+    endDate: undefined,
+    comment: undefined
   }
 ] as BookItem[]
