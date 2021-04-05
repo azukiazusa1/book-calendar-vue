@@ -4,7 +4,8 @@
   </toolbar-widh-back-button>
   <ion-content>
     <book-card :book="book" />
-    読書中
+    <book-details-status :book="book" />
+    <book-details-comment :book="book" />
   </ion-content>
 </template>
 
@@ -12,6 +13,8 @@
 import { IonContent } from '@ionic/vue'
 import ToolbarWidhBackButton from '@/components/molecules/ToolbarWidhBackButton.vue'
 import BookCard from '@/components/molecules/BookCard.vue'
+import BookDetailsStatus from '@/components/molecules/BookDetailsStatus.vue'
+import BookDetailsComment from '@/components/molecules/BookDetailsComment.vue'
 import { useTitle } from 'vue-composable'
 import { APP_TITLE } from '@/constant'
 import { useBookStore } from '@/store/book'
@@ -21,6 +24,8 @@ export default defineComponent({
   components: {
     IonContent,
     BookCard,
+    BookDetailsStatus,
+    BookDetailsComment,
     ToolbarWidhBackButton
   },
   props: {
