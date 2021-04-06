@@ -14,8 +14,9 @@
             class="ion-margin-end"
             fill="outline"
             size="small"
-            color="medium">キャンセル</ion-button>
-          <ion-button size="small">更新</ion-button>
+            color="medium"
+            @click="onCancelClick">キャンセル</ion-button>
+          <ion-button size="small" @click="onUpdateClick">更新</ion-button>
         </div>
       </div>
       <p v-else>{{ book.comment }}</p>
@@ -53,7 +54,10 @@ export default defineComponent({
       required: true
     }
   },
-  async setup (props) {
+  emits: {
+    updateComment: (comment: string) => typeof comment === 'string'
+  },
+  async setup (props, { emit }) {
     const root = ref<{ $el: HTMLIonInputElement } | null>(null)
     const isEditMode = ref(false)
     const comment = ref(props.book.comment ?? '')
@@ -66,11 +70,24 @@ export default defineComponent({
       }
     }
 
+    const onCancelClick = () => {
+      console.log('onCancelClick')
+      isEditMode.value = false
+    }
+
+    const onUpdateClick = () => {
+      console.log('onUpdateClick')
+      isEditMode.value = false
+      emit('updateComment', comment.value)
+    }
+
     return {
       root,
       isEditMode,
       comment,
       onEditClick,
+      onCancelClick,
+      onUpdateClick,
       createOutline,
       READ
     }
