@@ -25,4 +25,8 @@ export class MockBookRepository implements BookRepositoryInterface {
   regist (book: BookItem) {
     return Promise.resolve(book)
   }
+
+  update (book: BookItem) {
+    return Promise.resolve(book)
+  }
 }

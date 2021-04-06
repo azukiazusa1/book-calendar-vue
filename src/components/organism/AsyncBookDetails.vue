@@ -5,7 +5,7 @@
   <ion-content>
     <book-card :book="book" />
     <book-details-status :book="book" />
-    <book-details-comment :book="book" />
+    <book-details-comment :book="book" @updateComment="onUpdateComment" />
   </ion-content>
 </template>
 
@@ -48,8 +48,17 @@ export default defineComponent({
     }
     title.value = `${book.title} | ${APP_TITLE}`
 
+    const onUpdateComment = (comment: string) => {
+      bookStore.update(book.id, {
+        comment,
+        startDate: book.startDate ?? new Date(),
+        endDate: book.endDate ?? new Date()
+      })
+    }
+
     return {
-      book
+      book,
+      onUpdateComment
     }
   }
 })

@@ -39,4 +39,8 @@ export class BookRepository implements BookRepositoryInterface {
       ...book
     }
   }
+
+  update (book: BookItem) {
+    return Promise.resolve(book)
+  }
 }

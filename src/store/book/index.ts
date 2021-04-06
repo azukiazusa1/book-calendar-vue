@@ -104,6 +104,22 @@ const registAsStock = async (id: string) => {
 }
 
 /**
+ * 本の感想を更新します。
+ * @param id
+ * @param comment
+ */
+const update = async (id: string, payload: BookPayload) => {
+  const book = getBook(id)
+  if (!book) {
+    throw new Error(`book id: ${id} is not found`)
+  }
+  book.comment = payload.comment
+  book.startDate = payload.startDate
+  book.endDate = payload.endDate
+  await BookRepository.update(book)
+}
+
+/**
  * idによって本を取得します。
  * @param id
  */
@@ -125,6 +141,7 @@ export const useBookStore = () => {
     registAsReading,
     registAsRead,
     registAsStock,
+    update,
     findById
   }
 }
