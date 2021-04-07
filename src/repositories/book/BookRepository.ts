@@ -40,7 +40,12 @@ export class BookRepository implements BookRepositoryInterface {
     }
   }
 
-  update (book: BookItem) {
-    return Promise.resolve(book)
+  async update (book: BookItem) {
+    if (!book.docId) {
+      throw new Error('docId is expected to exsits')
+    }
+    const bookRef = await useBookRef()
+    await bookRef.doc(book.docId).set(book)
+    return book
   }
 }
