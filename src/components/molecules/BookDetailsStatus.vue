@@ -11,13 +11,21 @@
       </div>
       <div class="ion-margin-top">
         <book-regist-buttons
-          @clickReading="clickRegistAsReading"
-          @clickRead="openModal"
-          @clickStock="clickRegistAsStock"
+          @clickReading="onClickReading"
+          @clickRead="onClickRead"
+          @clickStock="openModal"
         />
       </div>
     </ion-card-content>
   </ion-card>
+  <ion-modal
+    :is-open="isOpenModal"
+  >
+    <edit-modal :book="book"
+      @on-dismiss="closeModal"
+      @on-submit="onSubmit"
+    />
+  </ion-modal>
 </template>
 
 <script lang="ts">
@@ -25,12 +33,15 @@ import {
   IonCard,
   IonCardHeader,
   IonCardTitle,
-  IonCardContent
+  IonCardContent,
+  IonModal
 } from '@ionic/vue'
 import BookRegistButtons from '@/components/molecules/BookRegistButtons.vue'
+import EditModal from '@/components/molecules/EditModal.vue'
 import AppDatetime from '@/components/atoms/AppDatetime.vue'
 import { defineComponent, PropType } from 'vue'
 import { BookItem, READING, READ, STOCK } from '@/repositories/book'
+import { useModal } from '@/composables/use-modal'
 
 export default defineComponent({
   components: {
@@ -38,7 +49,9 @@ export default defineComponent({
     IonCardHeader,
     IonCardTitle,
     IonCardContent,
+    IonModal,
     BookRegistButtons,
+    EditModal,
     AppDatetime
   },
   props: {
@@ -47,8 +60,34 @@ export default defineComponent({
       required: true
     }
   },
-  async setup () {
+  emits: {
+    registAsReading: (id: string) => typeof id === 'string',
+    registAsStock: (id: string) => typeof id === 'string',
+    registAsRead: (id: string, payload: BookPayload) => {
+      return !!(typeof id === 'string' && payload.startDate && payload.endDate)
+    }
+  },
+  setup (props, { emit }) {
+    const { isOpenModal, openModal, closeModal } = useModal()
+
+    const onClickReading = () => {
+      emit('registAsReading', props.book.id)
+    }
+    const onClickRead = () => {
+      emit('registAsStock', props.book.id)
+    }
+
+    const onSubmit = (book: BookItem, payload: BookPayload) => {
+      emit('registAsRead', book.id, payload)
+    }
+
     return {
+      isOpenModal,
+      openModal,
+      closeModal,
+      onClickReading,
+      onClickRead,
+      onSubmit,
       READING,
       READ,
       STOCK

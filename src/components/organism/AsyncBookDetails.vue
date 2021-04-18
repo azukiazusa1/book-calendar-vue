@@ -4,7 +4,12 @@
   </toolbar-widh-back-button>
   <ion-content>
     <book-card :book="book" />
-    <book-details-status :book="book" />
+    <book-details-status
+      :book="book"
+      @RegistAsReading="registAsReading"
+      @RegistAsRead="registAsRead"
+      @RegistAsStock="registAsStock"
+    />
     <book-details-comment :book="book" @updateComment="onUpdateComment" />
   </ion-content>
 </template>
@@ -35,21 +40,21 @@ export default defineComponent({
     }
   },
   async setup (props) {
-    const bookStore = useBookStore()
+    const { hasBook, findById, getBook, update, registAsReading, registAsRead, registAsStock } = useBookStore()
     const title = useTitle()
 
-    if (!bookStore.hasBook(props.id)) {
-      await bookStore.findById(props.id)
+    if (!hasBook(props.id)) {
+      await findById(props.id)
     }
 
-    const book = bookStore.getBook(props.id)
+    const book = getBook(props.id)
     if (!book) {
       throw new Error('not found')
     }
     title.value = `${book.title} | ${APP_TITLE}`
 
     const onUpdateComment = (comment: string) => {
-      bookStore.update(book.id, {
+      update(book.id, {
         comment,
         startDate: book.startDate ?? new Date(),
         endDate: book.endDate ?? new Date()
@@ -58,6 +63,9 @@ export default defineComponent({
 
     return {
       book,
+      registAsReading,
+      registAsRead,
+      registAsStock,
       onUpdateComment
     }
   }
