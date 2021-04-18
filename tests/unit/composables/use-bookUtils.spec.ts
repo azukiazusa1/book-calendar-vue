@@ -1,6 +1,6 @@
 import { useBookUtils } from '@/composables/use-bookUtils'
 import { createDummyBook } from '@/composables/utils'
-const { thumbnail } = useBookUtils()
+const { thumbnail, striptTagsDescription } = useBookUtils()
 
 describe('@/composables/use-bookUtils', () => {
   describe('thumbnail', () => {
@@ -28,6 +28,22 @@ describe('@/composables/use-bookUtils', () => {
       book.imageLinks = undefined
       const result = thumbnail(book, 'small')
       expect(result.value).toEqual('/assets/icon/no-image.png')
+    })
+  })
+
+  describe('striptTagsDescription', () => {
+    test('describeのHTMLタグを除去します', () => {
+      const book = createDummyBook()
+      book.description = '<span>lorem ipsum</span>'
+      const result = striptTagsDescription(book)
+      expect(result.value).toEqual('lorem ipsum')
+    })
+
+    test('describeがundefindのとき', () => {
+      const book = createDummyBook()
+      book.description = undefined
+      const result = striptTagsDescription(book)
+      expect(result.value).toEqual('')
     })
   })
 })
