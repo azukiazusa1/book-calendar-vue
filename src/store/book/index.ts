@@ -16,10 +16,16 @@ const state = reactive<BookState>({
  */
 const getBook = (id: string) => {
   const book = state.books.find(book => book.id === id)
-  if (!book) {
-    throw new Error(`book id: ${id} is not found`)
-  }
   return book
+}
+
+/**
+ * idから特定の本がstateに保持されているかどうが判定します。
+ * @param id
+ */
+const hasBook = (id: string) => {
+  const book = state.books.find(book => book.id === id)
+  return !!book
 }
 
 /**
@@ -55,6 +61,10 @@ const addBooks = (books: BookItem[] | BookItem) => {
  */
 const registAsReading = async (id: string) => {
   const book = getBook(id)
+  if (!book) {
+    throw new Error(`book id: ${id} is not found`)
+  }
+
   const readingBook = setStatusAsReading(book)
   readingBook.startDate = new Date()
   await BookRepository.regist(readingBook)
@@ -67,6 +77,10 @@ const registAsReading = async (id: string) => {
  */
 const registAsRead = async (id: string, payload: BookPayload) => {
   const book = getBook(id)
+  if (!book) {
+    throw new Error(`book id: ${id} is not found`)
+  }
+
   const readBook = setStatusAsRead(book)
   readBook.startDate = payload.startDate
   readBook.endDate = payload.endDate
@@ -81,20 +95,53 @@ const registAsRead = async (id: string, payload: BookPayload) => {
  */
 const registAsStock = async (id: string) => {
   const book = getBook(id)
+  if (!book) {
+    throw new Error(`book id: ${id} is not found`)
+  }
+
   const stockBook = setStatusAsStock(book)
   await BookRepository.regist(stockBook)
+}
+
+/**
+ * 本の感想を更新します。
+ * @param id
+ * @param comment
+ */
+const update = async (id: string, payload: BookPayload) => {
+  const book = getBook(id)
+  if (!book) {
+    throw new Error(`book id: ${id} is not found`)
+  }
+  book.comment = payload.comment
+  book.startDate = payload.startDate
+  book.endDate = payload.endDate
+  await BookRepository.update(book)
+}
+
+/**
+ * idによって本を取得します。
+ * @param id
+ */
+const findById = async (id: string) => {
+  const book = await BookRepository.findById(id)
+  console.log(book)
+  addBooks(book)
 }
 
 export const useBookStore = () => {
   return {
     state: readonly(state),
     getBook,
+    hasBook,
     setBooks,
     clearBooks,
     bookCount,
     addBooks,
     registAsReading,
     registAsRead,
-    registAsStock
+    registAsStock,
+    update,
+    findById
   }
 }

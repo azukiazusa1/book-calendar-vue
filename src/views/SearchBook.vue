@@ -44,9 +44,7 @@ export default defineComponent({
     title.value = `本を探す | ${APP_TITLE}`
     const { q, orderBy, setQ } = useSearchParams()
     const { storage, set, clear } = useStorage()
-
     const err = ref<boolean>(false)
-
     onErrorCaptured(e => {
       err.value = !!e
       return true

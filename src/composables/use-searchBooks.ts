@@ -24,7 +24,7 @@ export const useSearchParams = () => {
 
 const result = ref<Result | null>(null)
 const startIndex = ref(1)
-const loading = ref(true)
+const loading = ref(false)
 
 export const useSearchBooks = (
   setFunc: (items: BookItem[]) => void,

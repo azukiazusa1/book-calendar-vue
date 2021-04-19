@@ -6,37 +6,22 @@
       :src="thumbnail"
     />
     <ion-label>
-      <h2>{{ book.title }}</h2>
+      <h2>
+        <router-link :to="`/books/${book.id}`">
+          {{ book.title }}
+        </router-link>
+      </h2>
       <h3 v-if="book.auhtors">{{ book.auhtors.join(',') }}</h3>
-      <p>{{ book.description }}</p>
+      <p>{{ description }}</p>
       <ion-badge v-if="book.status === READING" class="ion-margin-top">読書中!</ion-badge>
       <ion-badge v-if="book.status === READ" class="ion-margin-top">読了済!</ion-badge>
       <ion-badge v-if="book.status === STOCK" class="ion-margin-top">ストック済!</ion-badge>
       <div class="ion-margin-top">
-        <ion-button
-          class="button ion-margin-end"
-          size="small"
-          color="secondary"
-          @click="clickRegistAsReading"
-        >
-          読書開始
-        </ion-button>
-        <ion-button
-          class="button ion-margin-end"
-          size="small"
-          color="tertiary"
-          @click="openModal"
-        >
-          読了
-        </ion-button>
-        <ion-button
-          class="button ion-margin-end"
-          size="small"
-          color="success"
-          @click="clickRegistAsStock"
-        >
-          ストック
-        </ion-button>
+        <book-regist-buttons
+          @clickReading="clickRegistAsReading"
+          @clickRead="openModal"
+          @clickStock="clickRegistAsStock"
+        />
       </div>
     </ion-label>
   </ion-item>
@@ -51,9 +36,11 @@
 </template>
 
 <script lang="ts">
-import { IonItem, IonImg, IonLabel, IonBadge, IonButton, IonModal } from '@ionic/vue'
+import { IonItem, IonImg, IonLabel, IonBadge, IonModal } from '@ionic/vue'
 import EditModal from '@/components/molecules/EditModal.vue'
-import { computed, defineComponent, PropType } from 'vue'
+import BookRegistButtons from '@/components/molecules/BookRegistButtons.vue'
+import { defineComponent, PropType } from 'vue'
+import { useBookUtils } from '@/composables/use-bookUtils'
 import { useModal } from '@/composables/use-modal'
 import { BookItem, READING, READ, STOCK, BookPayload } from '@/repositories/book'
 
@@ -63,9 +50,9 @@ export default defineComponent({
     IonImg,
     IonLabel,
     IonBadge,
-    IonButton,
     IonModal,
-    EditModal
+    EditModal,
+    BookRegistButtons
   },
   props: {
     book: {
@@ -85,10 +72,7 @@ export default defineComponent({
     }
   },
   setup (props, { emit }) {
-    const thumbnail = computed(() => {
-      return props.book.imageLinks?.smallThumbnail ?? '/assets/icon/no-image.png'
-    })
-
+    const { thumbnail, striptTagsDescription } = useBookUtils()
     const { isOpenModal, openModal, closeModal } = useModal()
 
     const clickRegistAsReading = () => {
@@ -101,8 +85,10 @@ export default defineComponent({
     const onSubmit = (book: BookItem, payload: BookPayload) => {
       emit('registAsRead', book.id, payload)
     }
+
     return {
-      thumbnail,
+      thumbnail: thumbnail(props.book, 'small'),
+      description: striptTagsDescription(props.book),
       isOpenModal,
       closeModal,
       openModal,
